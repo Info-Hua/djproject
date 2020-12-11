@@ -175,8 +175,9 @@ def get_name(request):
 
     return render(request, 'assign/test.html', {'form': form})
 
+
 #老师登陆时看到的工位布局图
-#需要先查房间，按照房间id排序，得到一个二维list，每个元素都为[id,row,line]
+#需要先查房间，按照房间id排序，得到一个二维list，每个元素都为[id,_row,line]
 #根据房间号去合并Chair和Student，得到二维数组，第二维方向上每个元素为一个学生使用工位记录
 @login_required()
 def teacher_index(request):
@@ -186,13 +187,13 @@ def teacher_index(request):
     print(username)
     with connection.cursor() as cursor:
         #得到房间信息
-        cursor.execute("select id,row,line from Room order by id asc")
+        cursor.execute("select id,_row,line from Room order by id asc")
         list_lab_info = list(cursor.fetchall())
         print(list_lab_info)
         #得到每个房间的工位信息
         list_seat_info = []
         for e in list_lab_info:
-            cursor.execute("select C.row,C.line,C.id,C.ctype,C.taken,S.name,S.id,S.stype,S.tid,T.gname from Chair C left join Student S on C.id=S.cid left join Teacher T on S.tid = T.id where C.rid=%s;",[e[0]])
+            cursor.execute("select C._row,C.line,C.id,C.ctype,C.taken,S.name,S.id,S.stype,S.tid,T.gname from Chair C left join Student S on C.id=S.cid left join Teacher T on S.tid = T.id where C.rid=%s;",[e[0]])
             list_seat_info.append(list(cursor.fetchall()))
         #得到每个老师和对应名字的字典
         cursor.execute("select id,name from Teacher order by id asc")
@@ -310,12 +311,12 @@ def teacher_enroll(request):
 def admin_index(request):
     with connection.cursor() as cursor:
         #得到房间信息
-        cursor.execute("select id,row,line from Room order by id asc")
+        cursor.execute("select id,_row,line from Room order by id asc")
         list_lab_info = list(cursor.fetchall())
         #得到每个房间的工位信息
         list_seat_info = []
         for e in list_lab_info:
-            cursor.execute("select C.row,C.line,C.id,C.ctype,C.taken,S.name,S.id,S.stype,S.tid,T.gname from Chair C left join Student S on C.id=S.cid left join Teacher T on S.tid = T.id where C.rid=%s;",[e[0]])
+            cursor.execute("select C._row,C.line,C.id,C.ctype,C.taken,S.name,S.id,S.stype,S.tid,T.gname from Chair C left join Student S on C.id=S.cid left join Teacher T on S.tid = T.id where C.rid=%s;",[e[0]])
             list_seat_info.append(list(cursor.fetchall()))
         #得到每个老师和对应颜色的字典
         cursor.execute("select id,name from Teacher order by id asc")
@@ -433,13 +434,13 @@ def admin_seat(request):
             list_student_info = list(cursor.fetchall())
             print(list_student_info)
             #得到房间信息
-            cursor.execute("select id,row,line from Room order by id asc")
+            cursor.execute("select id,_row,line from Room order by id asc")
             list_lab_info = list(cursor.fetchall())
             print(list_lab_info)
             #得到每个房间的工位信息
             list_seat_info = []
             for e in list_lab_info:
-                cursor.execute("select C.row,C.line,C.id,C.ctype,C.taken,S.name,S.id,S.stype,S.tid,T.gname from Chair C left join Student S on C.id=S.cid left join Teacher T on S.tid = T.id where C.rid=%s;",[e[0]])
+                cursor.execute("select C._row,C.line,C.id,C.ctype,C.taken,S.name,S.id,S.stype,S.tid,T.gname from Chair C left join Student S on C.id=S.cid left join Teacher T on S.tid = T.id where C.rid=%s;",[e[0]])
                 list_seat_info.append(list(cursor.fetchall()))
             print(list_seat_info)
             #得到每个老师和对应名字的字典
@@ -450,13 +451,13 @@ def admin_seat(request):
         print(actype)
         info = request.POST.getlist('info')
         print(info)
-        row = info[1]
+        _row = info[1]
         line = info[2]
-        if len(row) == 0:
-            row = '0'+row
+        if len(_row) == 0:
+            _row = '0'+_row
         if len(line) == 0:
             line = '0' + line
-        cid = info[0] + row + line
+        cid = info[0] + _row + line
         try:
             with connection.cursor() as cursor:
                 if actype == '0': # 创建一个工位
@@ -471,7 +472,7 @@ def admin_seat(request):
                     cursor.execute("update Student set cid=NULL where id = %s", [info[3]])
                     cursor.execute("update Student set cid=%s where id = %s", [cid,info[4]])
                 elif actype == '5': # 验证工位行列修改是否合法
-                    cursor.execute("select * from Chair where taken='1' and rid=%s and (row>%s or line>%s)", [info[0],info[1],info[2]])
+                    cursor.execute("select * from Chair where taken='1' and rid=%s and (_row>%s or line>%s)", [info[0],info[1],info[2]])
                     print("test")
                     temp = cursor.fetchall()
                     if len(temp) != 0:
@@ -535,10 +536,10 @@ def query(request):
             try: # 不存在结果
                 rid = cursor.fetchone()[0]
                 # 得到房间
-                cursor.execute("select id,row,line from Room where id =%s",[rid])
+                cursor.execute("select id,_row,line from Room where id =%s",[rid])
                 list_lab_info.append(cursor.fetchone())
                 # 得到该房间的工位
-                cursor.execute("select C.row,C.line,C.id,C.ctype,C.taken,S.name,S.id,S.stype,S.tid,T.gname from Chair C left join Student S on C.id=S.cid left join Teacher T on S.tid = T.id where C.rid=%s;",[rid])
+                cursor.execute("select C._row,C.line,C.id,C.ctype,C.taken,S.name,S.id,S.stype,S.tid,T.gname from Chair C left join Student S on C.id=S.cid left join Teacher T on S.tid = T.id where C.rid=%s;",[rid])
                 list_seat_info.append(cursor.fetchall())
             except TypeError:
                 status = 1
@@ -550,10 +551,10 @@ def query(request):
             try: # 不存在结果
                 rid = cursor.fetchone()[0]
                 # 得到房间
-                cursor.execute("select id,row,line from Room where id =%s",[rid])
+                cursor.execute("select id,_row,line from Room where id =%s",[rid])
                 list_lab_info.append(cursor.fetchone())
                 # 得到该房间的工位
-                cursor.execute("select C.row,C.line,C.id,C.ctype,C.taken,S.name,S.id,S.stype,S.tid,T.gname from Chair C left join Student S on C.id=S.cid left join Teacher T on S.tid = T.id where C.rid=%s;",[rid])
+                cursor.execute("select C._row,C.line,C.id,C.ctype,C.taken,S.name,S.id,S.stype,S.tid,T.gname from Chair C left join Student S on C.id=S.cid left join Teacher T on S.tid = T.id where C.rid=%s;",[rid])
                 list_seat_info.append(cursor.fetchall())
             except TypeError:
                 status = 1
@@ -561,7 +562,7 @@ def query(request):
             search_col = 5
             search_key = key
         elif stype == '3': # 导师编号，先得到导师学生所在实验室，再得到实验室的工位信息
-            cursor.execute("select R.id,R.row,R.line from Teacher T, Student S, Chair C, Room R where T.id=%s and S.tid=T.id and S.cid = C.id and C.rid=R.id", [key])
+            cursor.execute("select R.id,R._row,R.line from Teacher T, Student S, Chair C, Room R where T.id=%s and S.tid=T.id and S.cid = C.id and C.rid=R.id", [key])
             temp = cursor.fetchall()
             print(temp)
             try:
@@ -570,7 +571,7 @@ def query(request):
                     list_lab_info.append(t)
                 # 得到该房间的工位
                 for lab in list_lab_info:
-                    cursor.execute("select C.row,C.line,C.id,C.ctype,C.taken,S.name,S.id,S.stype,S.tid,T.gname from Chair C left join Student S on C.id=S.cid left join Teacher T on S.tid = T.id where C.rid=%s;",[lab[0]])
+                    cursor.execute("select C._row,C.line,C.id,C.ctype,C.taken,S.name,S.id,S.stype,S.tid,T.gname from Chair C left join Student S on C.id=S.cid left join Teacher T on S.tid = T.id where C.rid=%s;",[lab[0]])
                     list_seat_info.append(cursor.fetchall())
             except TypeError:
                 status = 1
@@ -586,7 +587,7 @@ def query(request):
                 tids[0]
                 # 得到需要显示的实验室
                 for tid in tids:
-                    cursor.execute("select R.id,R.row,R.line from Teacher T, Student S, Chair C, Room R where T.id=%s and S.tid=T.id and S.cid = C.id and C.rid=R.id", [tid])
+                    cursor.execute("select R.id,R._row,R.line from Teacher T, Student S, Chair C, Room R where T.id=%s and S.tid=T.id and S.cid = C.id and C.rid=R.id", [tid])
                     temp = cursor.fetchall()
                     for r in temp:
                         if r[0] not in appr_labs:
@@ -595,7 +596,7 @@ def query(request):
                 list_lab_info.sort(key=lambda x:x[0],reverse=False) # 实验室按照编号升序排列
                 # 得到房间的工位
                 for lab in list_lab_info:
-                    cursor.execute("select C.row,C.line,C.id,C.ctype,C.taken,S.name,S.id,S.stype,S.tid,T.gname from Chair C left join Student S on C.id=S.cid left join Teacher T on S.tid = T.id where C.rid=%s;",[lab[0]])
+                    cursor.execute("select C._row,C.line,C.id,C.ctype,C.taken,S.name,S.id,S.stype,S.tid,T.gname from Chair C left join Student S on C.id=S.cid left join Teacher T on S.tid = T.id where C.rid=%s;",[lab[0]])
                     list_seat_info.append(cursor.fetchall())
             except IndexError:
                 status = 1
@@ -604,14 +605,14 @@ def query(request):
             search_key = key
         elif stype == '5': # 查询空闲工位
             # 得到有空闲工位的实验室
-            cursor.execute("select R.id,R.row,R.line from Room R where exists(select * from Chair C where R.id=C.rid and C.taken='0')")
+            cursor.execute("select R.id,R._row,R.line from Room R where exists(select * from Chair C where R.id=C.rid and C.taken='0')")
             try:
                 temp = cursor.fetchall()
                 temp[0]
                 list_lab_info = list(temp) 
                 # 得到工位
                 for lab in list_lab_info:
-                    cursor.execute("select C.row,C.line,C.id,C.ctype,C.taken,S.name,S.id,S.stype,S.tid,T.gname from Chair C left join Student S on C.id=S.cid left join Teacher T on S.tid = T.id where C.rid=%s;",[lab[0]])
+                    cursor.execute("select C._row,C.line,C.id,C.ctype,C.taken,S.name,S.id,S.stype,S.tid,T.gname from Chair C left join Student S on C.id=S.cid left join Teacher T on S.tid = T.id where C.rid=%s;",[lab[0]])
                     list_seat_info.append(cursor.fetchall())
             except TypeError:
                 status = 1
