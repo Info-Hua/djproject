@@ -66,7 +66,7 @@ def register(request):
 # 人大验证登陆
 def loggin(request):
     loginServer = "http://cas.ruc.edu.cn/cas/login"
-    myurl = "http://127.0.0.1:8000/assign/accounts/cas"
+    myurl = "http://180.76.163.103/assign/accounts/cas"
     print("test")
     return redirect(loginServer+'?service='+myurl,code=302)
 
@@ -124,7 +124,7 @@ def cas(request):
     print("cas test")
     ticket = request.GET["ticket"]
     print(ticket)
-    myurl = "http://127.0.0.1:8000/assign/accounts/cas" 
+    myurl ="http://180.76.163.103/assign/accounts/cas" 
     validateServer = "http://cas.ruc.edu.cn/cas/serviceValidate"
     validateurl = validateServer+"?ticket="+ticket+'&service='+myurl
     content = requests.get(validateurl).text
