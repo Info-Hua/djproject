@@ -28,6 +28,7 @@
 
 #button {
     background-color: rgb(35, 45, 59); 
+    margin-left: 50px;
     margin-top: 50px;
     width: 200px;
 }
