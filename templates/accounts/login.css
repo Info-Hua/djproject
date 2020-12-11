@@ -1,5 +1,5 @@
 #log-in {
-    height: 600px;
+    height: 700px;
     margin: auto;
     background-color: rgb(94, 185, 245);
     background-position: center 0;    
@@ -29,6 +29,5 @@
 #button {
     background-color: rgb(35, 45, 59); 
     margin-top: 50px;
-    margin-left: 50px;
     width: 200px;
 }

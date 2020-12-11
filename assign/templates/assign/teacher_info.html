@@ -110,13 +110,64 @@
                             <td style="width:150px;height:50px;">职工号：</td>
                             <td id="tid"></td>
                         </tr>
+                        <tr id="roomtr">
+                            <td style="width:150px;height:50px;">房间号：</td>
+                            <td id="troom"></td>
+                            <td><button class="btn btn-primary" data-toggle="modal" data-target="#myModal">修改</button></td>
+                        </tr>
                         <tr><td style="width:150px;height:50px;"><a onclick="Box()">修改密码</a></td></tr>
                     <table>
                     <table id="table1">
                     </table>
                 </div>
             </div>
-        </div>    
+        </div>
+        <!--修改房间号模态框-->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body" style="text-align:center;">
+                        <form role="form" class="form-inline">
+                            <div class="form-group">
+                                <label >房间号: </label>
+                                <input type="text" class="form-control" name = "roomid" id="roomid" placeholder="请输入房间号">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="btn-group" role="group" style="padding-right: 240px;">                                           
+                            <a href="" class="btn btn-primary btn-lg" data-dismiss="modal" onclick="ChangeRoom()">确定</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--房间号修改失败模态框-->
+         <div class="modal fade" id="myModal3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body" style="text-align:center;color:red;"><h1 id="title">房间号修改失败</h1></div>
+                    <div class="modal-footer">
+                        <div class="btn-group" role="group" style="padding-right: 240px;">                                           
+                            <a href="" class="btn btn-primary btn-lg" data-dismiss="modal">确定</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--房间号修改成功模态框-->
+        <div class="modal fade" id="myModal4" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body" style="text-align:center;"><h1 id="title">房间号修改成功</h1></div>
+                    <div class="modal-footer">
+                        <div class="btn-group" role="group" style="padding-right: 240px;">                                           
+                            <a href="" class="btn btn-primary btn-lg" data-dismiss="modal">确定</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>       
         <!--修改成功模态框-->
         <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -231,14 +282,43 @@
             flag = 0;
         }
     }
+    function ChangeRoom(){
+        var id = document.getElementsByName("roomid")[0].value;
+        $.ajaxSetup({
+            data:{csrfmiddlewaretoken:'{{ csrf_token }}'}
+        })
+        $.ajax({
+            url:"{% url 'assign:person_info' %}",
+            type: "POST",
+            data: {roomid: id},
+            success: function(data){
+                data = JSON.parse(data);
+                if(data["status"] == 1){
+                    $('#myModal4').modal();
+                    var tr = document.getElementById("roomtr");
+                    var t = document.getElementById("troom");
+                    tr.removeChild(t);
+                    var t1 = document.createElement("td");
+                    t1.setAttribute("id", "troom");
+                    t1.appendChild(document.createTextNode(id));
+                    tr.appendChild(t1);
+                }
+                else if(data["status"] == 0){
+                    $('#myModal3').modal();
+                }
+            }           
+        });
+    }
     window.onload = function(){
         var tid = JSON.parse('{{ tid|safe }}');
         var username = JSON.parse('{{ username|safe }}');
+        var roomid = JSON.parse('{{ roomid|safe }}');
 
         document.getElementById("username1").appendChild(document.createTextNode(username));
         document.getElementById("username2").appendChild(document.createTextNode(username));
         document.getElementById("tname").appendChild(document.createTextNode(username));
         document.getElementById("tid").appendChild(document.createTextNode(tid));
+        document.getElementById("troom").appendChild(document.createTextNode(roomid));
     }   
 </script>
 
