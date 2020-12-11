@@ -1,0 +1,9 @@
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'assign/style.css' %}">
+
+<form action="{% url 'assign:search' %}" method="post">
+    {% csrf_token %}
+    {{ form.key }}
+    <input type="submit" value="Submit">
+</form>
