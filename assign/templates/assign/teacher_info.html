@@ -220,6 +220,9 @@
                 else if(data["status"] == 0){
                     $('#myModal2').modal();
                 }
+            },
+            error: function(e){
+                $('#myModal2').modal();
             }           
         });        
     }
@@ -306,6 +309,9 @@
                 else if(data["status"] == 0){
                     $('#myModal3').modal();
                 }
+            },
+            error: function(e){
+                $('#myModal3').modal();
             }           
         });
     }
