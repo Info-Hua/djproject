@@ -32,6 +32,7 @@ LOGIN_URL = '/assign/accounts/login/'
 
 INSTALLED_APPS = [
     'assign.apps.AssignConfig',
+    #'polls.apps.PollsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -121,5 +122,14 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
-
+import os
+STATIC_ROOT = os.path.join(BASE_DIR,'static_root')
 STATIC_URL = '/static/'
+
+
+# log to file
+import logging
+logging.basicConfig(
+    level = logging.INFO,
+    format = '%(asctime)s %(levelname)s %(message)s',
+    filename = '/tmp/djangoLog.log',)

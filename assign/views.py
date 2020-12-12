@@ -11,7 +11,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth import views as auth_views, authenticate, login
 
-import json, time, re, requests
+import json, time, re, requests, logging
 
 from .forms import NameForm, RegisterForm, LoginForm, SearchForm#test for nameform
 colors = ('red','orange', 'yellow', 'green', 'blue')
@@ -71,6 +71,7 @@ def loggin(request):
     return redirect(loginServer+'?service='+myurl,code=302)
 
 def _login(request):
+    logging.info("I want to login")
     next = ""
     status = 0
     if request.method == 'GET':
