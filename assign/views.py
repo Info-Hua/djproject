@@ -643,7 +643,7 @@ def person_info(request):
                     status = 1
                 except:
                     status = 0
-        else:
+        elif _type == '1':
             password_old = request.POST['password1']
             password_new1 = request.POST['password2']
             password_new2 = request.POST['password3']
@@ -657,6 +657,14 @@ def person_info(request):
                     status = 0
             else:
                 status = 0
+        else:
+            gname = request.POST['gname']
+            with connection.cursor() as cursor:
+                try:
+                    cursor.execute("update Teacher set gname=%s where id=%s", [gname, user.username])
+                    status = 1
+                except:
+                    status = 0
 
         response = HttpResponse(json.dumps({
             "status": status
@@ -671,8 +679,9 @@ def person_info(request):
         url = 'assign/teacher_info.html'
         with connection.cursor() as cursor:
             cursor.execute("select rid,gname from Teacher where id=%s", [user.username])
-            roomid = cursor.fetchall()[0][0]
-            gname = cursor.fetchall()[0][1]
+            temp = cursor.fetchall()
+            roomid = temp[0][0]
+            gname = temp[0][1]
 
     return render(request, url, {
         'tid': json.dumps(user.username),
