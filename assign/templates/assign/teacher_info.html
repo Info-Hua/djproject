@@ -110,10 +110,15 @@
                             <td style="width:150px;height:50px;">职工号：</td>
                             <td id="tid"></td>
                         </tr>
-                        <tr id="roomtr">
+                        <tr>
                             <td style="width:150px;height:50px;">房间号：</td>
                             <td id="troom"></td>
                             <td><button class="btn btn-primary" data-toggle="modal" data-target="#myModal">修改</button></td>
+                        </tr>
+                        <tr>
+                            <td style="width:150px;height:50px;">课题组：</td>
+                            <td id="gname"></td>
+                            <td><button class="btn btn-primary" data-toggle="modal" data-target="#myModa5">修改</button></td>
                         </tr>
                         <tr><td style="width:150px;height:50px;"><a onclick="Box()">修改密码</a></td></tr>
                     <table>
@@ -167,6 +172,52 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <!--修改课题组模态框-->
+        <div class="modal fade" id="myModal5" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body" style="text-align:center;">
+                        <form role="form" class="form-inline">
+                            <div class="form-group">
+                                <label >课题组: </label>
+                                <input type="text" class="form-control" name = "gnameid" id="gnameid" placeholder="请输入课题组">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="btn-group" role="group" style="padding-right: 240px;">                                           
+                            <a href="" class="btn btn-primary btn-lg" data-dismiss="modal" onclick="ChangeGname()">确定</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--课题组修改失败模态框-->
+         <div class="modal fade" id="myModal6" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body" style="text-align:center;color:red;"><h1 id="title">课题组修改失败</h1></div>
+                    <div class="modal-footer">
+                        <div class="btn-group" role="group" style="padding-right: 240px;">                                           
+                            <a href="" class="btn btn-primary btn-lg" data-dismiss="modal">确定</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--课题组修改成功模态框-->
+        <div class="modal fade" id="myModal7" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body" style="text-align:center;"><h1 id="title">课题组修改成功</h1></div>
+                    <div class="modal-footer">
+                        <div class="btn-group" role="group" style="padding-right: 240px;">                                           
+                            <a href="" class="btn btn-primary btn-lg" data-dismiss="modal">确定</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>       
         <!--修改成功模态框-->
         <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -209,7 +260,8 @@
         $.ajax({
             url:"{% url 'assign:person_info' %}",
             type: "POST",
-            data: {password1: _password1,
+            data: {_type:1,
+                   password1: _password1,
                    password2: _password2,
                    password3: _password3},
             success: function(data){
@@ -293,18 +345,13 @@
         $.ajax({
             url:"{% url 'assign:person_info' %}",
             type: "POST",
-            data: {roomid: id},
+            data: {_type:0,roomid: id},
             success: function(data){
                 data = JSON.parse(data);
                 if(data["status"] == 1){
                     $('#myModal4').modal();
-                    var tr = document.getElementById("roomtr");
                     var t = document.getElementById("troom");
-                    tr.removeChild(t);
-                    var t1 = document.createElement("td");
-                    t1.setAttribute("id", "troom");
-                    t1.appendChild(document.createTextNode(id));
-                    tr.appendChild(t1);
+                    t.innerHTML = String(id);
                 }
                 else if(data["status"] == 0){
                     $('#myModal3').modal();
@@ -315,16 +362,43 @@
             }           
         });
     }
+    function ChangeGname(){
+        var _gname = document.getElementsByName("gnameid")[0].value;
+        $.ajaxSetup({
+            data:{csrfmiddlewaretoken:'{{ csrf_token }}'}
+        })
+        $.ajax({
+            url:"{% url 'assign:person_info' %}",
+            type: "POST",
+            data: {_type:2,gname: _gname},
+            success: function(data){
+                data = JSON.parse(data);
+                if(data["status"] == 1){
+                    $('#myModal7').modal();
+                    var t = document.getElementById("gname");
+                    t.innerHTML = String(_gname);
+                }
+                else if(data["status"] == 0){
+                    $('#myModal6').modal();
+                }
+            },
+            error: function(e){
+                $('#myModal6').modal();
+            }           
+        });
+    }
     window.onload = function(){
         var tid = JSON.parse('{{ tid|safe }}');
         var username = JSON.parse('{{ username|safe }}');
         var roomid = JSON.parse('{{ roomid|safe }}');
+        var gname = JSON.parse('{{ gname|safe }}');
 
         document.getElementById("username1").appendChild(document.createTextNode(username));
         document.getElementById("username2").appendChild(document.createTextNode(username));
         document.getElementById("tname").appendChild(document.createTextNode(username));
         document.getElementById("tid").appendChild(document.createTextNode(tid));
         document.getElementById("troom").appendChild(document.createTextNode(roomid));
+        document.getElementById("gname").appendChild(document.createTextNode(gname));
     }   
 </script>
 
