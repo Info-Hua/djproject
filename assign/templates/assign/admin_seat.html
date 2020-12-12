@@ -372,6 +372,7 @@
         var tablevalue;
         var flagdict = new Array();
         var infodict = new Array();
+        var localdict = new Array();
         var rownum;
         function add(count) { 
             var dict_tname = JSON.parse('{{ dict_tname|safe }}');
@@ -412,6 +413,11 @@
                                     var s = "";
                                     s = labid+i+j;
                                     var list1 = ['0', '0', '0', '0', '0'];
+                                    var list2 = ['0', '0', '0'];
+                                    list2[0] = labid;
+                                    list2[1] = i;
+                                    list2[2] = j;
+                                    localdict[s] = list2;
                                     infodict[s] = list1;
                                     str += '<td height="80px" width="120px">';
                                     str += '<button type="button" class="list-group-item';
@@ -480,7 +486,7 @@
                             var divobj = document.getElementById("table"+String(count));
                             divobj.innerHTML = str;
                             for(var i = 0; i < row; i++){
-                                for(var j = 0; j < row; j++){
+                                for(var j = 0; j < col; j++){
                                     var bu = ""
                                     bu = bu + "#" +labid+i+j;
                                     $(bu).droppable({   
@@ -508,10 +514,10 @@
                                             thisbutton = $(this).attr("id");
                                             if(flagdict[thisbutton] == 2 && infodict[thisbutton][4] != 2){
                                                 var info_send = ['0', '0', '0', '0'];
-                                                info_send[0] = _labid;
-                                                info_send[1] = _row;
-                                                info_send[2] = _col;
-                                                info_send[3] = infodict[thisbutton][0];
+                                                info_send[0] = localdict[thisbutton][0];
+                                                info_send[1] = localdict[thisbutton][1];
+                                                info_send[2] = localdict[thisbutton][2];
+                                                info_send[3] = $(ui.draggable).children().eq(0).html();
                                                 $.ajaxSetup({
                                                     data:{csrfmiddlewaretoken:'{{ csrf_token }}'}
                                                 })
@@ -555,11 +561,11 @@
                                             }
                                             else if(flagdict[thisbutton] == 3){
                                                 var info_send = ['0', '0', '0', '0', '0'];
-                                                info_send[0] = _labid;
-                                                info_send[1] = _row;
-                                                info_send[2] = _col;
+                                                info_send[0] = localdict[thisbutton][0];
+                                                info_send[1] = localdict[thisbutton][1];
+                                                info_send[2] = localdict[thisbutton][2];
                                                 info_send[3] = temp1;
-                                                info_send[4] = infodict[thisbutton][0];
+                                                info_send[4] =  $(ui.draggable).children().eq(0).html();
                                                 $.ajaxSetup({
                                                     data:{csrfmiddlewaretoken:'{{ csrf_token }}'}
                                                 })
@@ -648,6 +654,11 @@
                                     var s = "";
                                     s = labid+i+j;
                                     var list1 = ['0', '0', '0', '0', '0'];
+                                    var list2 = ['0', '0', '0'];
+                                    list2[0] = labid;
+                                    list2[1] = i;
+                                    list2[2] = j;
+                                    localdict[s] = list2;
                                     infodict[s] = list1;
                                     str += '<td height="80px" width="120px">';
                                     str += '<button type="button" class="list-group-item';
@@ -716,7 +727,7 @@
                             var divobj = document.getElementById("table"+String(count));
                             divobj.innerHTML = str;
                             for(var i = 0; i < row; i++){
-                                for(var j = 0; j < row; j++){
+                                for(var j = 0; j < col; j++){
                                     var bu = ""
                                     bu = bu + "#" +labid+i+j;
                                     $(bu).droppable({   
@@ -744,10 +755,10 @@
                                             thisbutton = $(this).attr("id");
                                             if(flagdict[thisbutton] == 2 && infodict[thisbutton][4] != 2){
                                                 var info_send = ['0', '0', '0', '0'];
-                                                info_send[0] = _labid;
-                                                info_send[1] = _row;
-                                                info_send[2] = _col;
-                                                info_send[3] = infodict[thisbutton][0];
+                                                info_send[0] = localdict[thisbutton][0];
+                                                info_send[1] = localdict[thisbutton][1];
+                                                info_send[2] = localdict[thisbutton][2];
+                                                info_send[3] = $(ui.draggable).children().eq(0).html();
                                                 $.ajaxSetup({
                                                     data:{csrfmiddlewaretoken:'{{ csrf_token }}'}
                                                 })
@@ -791,11 +802,11 @@
                                             }
                                             else if(flagdict[thisbutton] == 3){
                                                 var info_send = ['0', '0', '0', '0', '0'];
-                                                info_send[0] = _labid;
-                                                info_send[1] = _row;
-                                                info_send[2] = _col;
+                                                info_send[0] = localdict[thisbutton][0];
+                                                info_send[1] = localdict[thisbutton][1];
+                                                info_send[2] = localdict[thisbutton][2];
                                                 info_send[3] = temp1;
-                                                info_send[4] = infodict[thisbutton][0];
+                                                info_send[4] = $(ui.draggable).children().eq(0).html();;
                                                 $.ajaxSetup({
                                                     data:{csrfmiddlewaretoken:'{{ csrf_token }}'}
                                                 })
