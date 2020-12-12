@@ -71,7 +71,6 @@ def loggin(request):
     return redirect(loginServer+'?service='+myurl,code=302)
 
 def _login(request):
-    logging.info("I want to login")
     next = ""
     status = 0
     if request.method == 'GET':
@@ -667,16 +666,19 @@ def person_info(request):
     if user.is_staff:
         url = 'assign/admin_info.html'
         roomid = 0
+        gname = ""
     else:
         url = 'assign/teacher_info.html'
         with connection.cursor() as cursor:
-            cursor.execute("select rid from Teacher where id=%s", [user.username])
+            cursor.execute("select rid,gname from Teacher where id=%s", [user.username])
             roomid = cursor.fetchall()[0][0]
+            gname = cursor.fetchall()[0][1]
 
     return render(request, url, {
         'tid': json.dumps(user.username),
         'username': json.dumps(user.first_name),
-        'roomid': json.dumps(roomid)
+        'roomid': json.dumps(roomid),
+        'gname': json.dumps(gname)
     })        
 
 
