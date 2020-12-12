@@ -507,17 +507,6 @@
                                         drop: function( event, ui ) {
                                             thisbutton = $(this).attr("id");
                                             if(flagdict[thisbutton] == 2 && infodict[thisbutton][4] != 2){
-                                                infodict[thisbutton][0] = $(ui.draggable).children().eq(0).html();
-                                                infodict[thisbutton][1] = $(ui.draggable).children().eq(1).html();
-                                                infodict[thisbutton][2] = $(ui.draggable).children().eq(2).html();
-                                                infodict[thisbutton][3] = $(ui.draggable).children().eq(3).html();
-                                                document.getElementById(thisbutton).innerHTML = infodict[thisbutton][1]+" "+infodict[thisbutton][2]+infodict[thisbutton][0]+infodict[thisbutton][3];
-                                                flagdict[thisbutton] = flagdict[thisbutton] + 1;
-
-                                                var tbody1 = document.getElementById("tbody");
-                                                var tr = document.getElementById($(ui.draggable).attr("id"));
-                                                tbody1.removeChild(tr);
-
                                                 var info_send = ['0', '0', '0', '0'];
                                                 info_send[0] = _labid;
                                                 info_send[1] = _row;
@@ -539,6 +528,18 @@
                                                         result = JSON.parse(result);
                                                         if(result["status"] == 0){
                                                             $('#myModal').modal();
+                                                        }
+                                                        else{
+                                                            infodict[thisbutton][0] = $(ui.draggable).children().eq(0).html();
+                                                            infodict[thisbutton][1] = $(ui.draggable).children().eq(1).html();
+                                                            infodict[thisbutton][2] = $(ui.draggable).children().eq(2).html();
+                                                            infodict[thisbutton][3] = $(ui.draggable).children().eq(3).html();
+                                                            document.getElementById(thisbutton).innerHTML = infodict[thisbutton][1]+" "+infodict[thisbutton][2]+infodict[thisbutton][0]+infodict[thisbutton][3];
+                                                            flagdict[thisbutton] = flagdict[thisbutton] + 1;
+
+                                                            var tbody1 = document.getElementById("tbody");
+                                                            var tr = document.getElementById($(ui.draggable).attr("id"));
+                                                            tbody1.removeChild(tr);
                                                         }                    
                                                     },
                                                     error: function(e){
@@ -553,22 +554,6 @@
                                                 }
                                             }
                                             else if(flagdict[thisbutton] == 3){
-                                                var temp1 = infodict[thisbutton][0];
-                                                var temp2 = infodict[thisbutton][1];
-                                                var temp3 = infodict[thisbutton][2];
-                                                var temp4 = infodict[thisbutton][3];
-                                                infodict[thisbutton][0] = $(ui.draggable).children().eq(0).html();
-                                                infodict[thisbutton][1] = $(ui.draggable).children().eq(1).html();
-                                                infodict[thisbutton][2] = $(ui.draggable).children().eq(2).html();
-                                                infodict[thisbutton][3] = $(ui.draggable).children().eq(3).html();
-                                                $(ui.draggable).children().eq(0).html(temp1);
-                                                $(ui.draggable).children().eq(1).html(temp2);
-                                                $(ui.draggable).children().eq(2).html(temp3);
-                                                $(ui.draggable).children().eq(3).html(temp4);
-                                                document.getElementById(thisbutton).innerHTML = infodict[thisbutton][1]+" "+infodict[thisbutton][2]+infodict[thisbutton][0]+infodict[thisbutton][3];
-                                                var tr = document.getElementById($(ui.draggable).attr("id"));
-                                                tr.style.background = "yellow";
-
                                                 var info_send = ['0', '0', '0', '0', '0'];
                                                 info_send[0] = _labid;
                                                 info_send[1] = _row;
@@ -591,6 +576,23 @@
                                                         result = JSON.parse(result);
                                                         if(result["status"] == 0){
                                                             $('#myModal').modal();
+                                                        }
+                                                        else{
+                                                            var temp1 = infodict[thisbutton][0];
+                                                            var temp2 = infodict[thisbutton][1];
+                                                            var temp3 = infodict[thisbutton][2];
+                                                            var temp4 = infodict[thisbutton][3];
+                                                            infodict[thisbutton][0] = $(ui.draggable).children().eq(0).html();
+                                                            infodict[thisbutton][1] = $(ui.draggable).children().eq(1).html();
+                                                            infodict[thisbutton][2] = $(ui.draggable).children().eq(2).html();
+                                                            infodict[thisbutton][3] = $(ui.draggable).children().eq(3).html();
+                                                            $(ui.draggable).children().eq(0).html(temp1);
+                                                            $(ui.draggable).children().eq(1).html(temp2);
+                                                            $(ui.draggable).children().eq(2).html(temp3);
+                                                            $(ui.draggable).children().eq(3).html(temp4);
+                                                            document.getElementById(thisbutton).innerHTML = infodict[thisbutton][1]+" "+infodict[thisbutton][2]+infodict[thisbutton][0]+infodict[thisbutton][3];
+                                                            var tr = document.getElementById($(ui.draggable).attr("id"));
+                                                            tr.style.background = "yellow";
                                                         }                    
                                                     },
                                                     error: function(e){
@@ -741,17 +743,6 @@
                                         drop: function( event, ui ) {
                                             thisbutton = $(this).attr("id");
                                             if(flagdict[thisbutton] == 2 && infodict[thisbutton][4] != 2){
-                                                infodict[thisbutton][0] = $(ui.draggable).children().eq(0).html();
-                                                infodict[thisbutton][1] = $(ui.draggable).children().eq(1).html();
-                                                infodict[thisbutton][2] = $(ui.draggable).children().eq(2).html();
-                                                infodict[thisbutton][3] = $(ui.draggable).children().eq(3).html();
-                                                document.getElementById(thisbutton).innerHTML = infodict[thisbutton][1]+" "+infodict[thisbutton][2]+infodict[thisbutton][0]+infodict[thisbutton][3];
-                                                flagdict[thisbutton] = flagdict[thisbutton] + 1;
-
-                                                var tbody1 = document.getElementById("tbody");
-                                                var tr = document.getElementById($(ui.draggable).attr("id"));
-                                                tbody1.removeChild(tr);
-
                                                 var info_send = ['0', '0', '0', '0'];
                                                 info_send[0] = _labid;
                                                 info_send[1] = _row;
@@ -773,6 +764,18 @@
                                                         result = JSON.parse(result);
                                                         if(result["status"] == 0){
                                                             $('#myModal').modal();
+                                                        }
+                                                        else{
+                                                            infodict[thisbutton][0] = $(ui.draggable).children().eq(0).html();
+                                                            infodict[thisbutton][1] = $(ui.draggable).children().eq(1).html();
+                                                            infodict[thisbutton][2] = $(ui.draggable).children().eq(2).html();
+                                                            infodict[thisbutton][3] = $(ui.draggable).children().eq(3).html();
+                                                            document.getElementById(thisbutton).innerHTML = infodict[thisbutton][1]+" "+infodict[thisbutton][2]+infodict[thisbutton][0]+infodict[thisbutton][3];
+                                                            flagdict[thisbutton] = flagdict[thisbutton] + 1;
+
+                                                            var tbody1 = document.getElementById("tbody");
+                                                            var tr = document.getElementById($(ui.draggable).attr("id"));
+                                                            tbody1.removeChild(tr);
                                                         }                    
                                                     },
                                                     error: function(e){
@@ -787,22 +790,6 @@
                                                 }
                                             }
                                             else if(flagdict[thisbutton] == 3){
-                                                var temp1 = infodict[thisbutton][0];
-                                                var temp2 = infodict[thisbutton][1];
-                                                var temp3 = infodict[thisbutton][2];
-                                                var temp4 = infodict[thisbutton][3];
-                                                infodict[thisbutton][0] = $(ui.draggable).children().eq(0).html();
-                                                infodict[thisbutton][1] = $(ui.draggable).children().eq(1).html();
-                                                infodict[thisbutton][2] = $(ui.draggable).children().eq(2).html();
-                                                infodict[thisbutton][3] = $(ui.draggable).children().eq(3).html();
-                                                $(ui.draggable).children().eq(0).html(temp1);
-                                                $(ui.draggable).children().eq(1).html(temp2);
-                                                $(ui.draggable).children().eq(2).html(temp3);
-                                                $(ui.draggable).children().eq(3).html(temp4);
-                                                document.getElementById(thisbutton).innerHTML = infodict[thisbutton][1]+" "+infodict[thisbutton][2]+infodict[thisbutton][0]+infodict[thisbutton][3];
-                                                var tr = document.getElementById($(ui.draggable).attr("id"));
-                                                tr.style.background = "yellow";
-
                                                 var info_send = ['0', '0', '0', '0', '0'];
                                                 info_send[0] = _labid;
                                                 info_send[1] = _row;
@@ -825,6 +812,23 @@
                                                         result = JSON.parse(result);
                                                         if(result["status"] == 0){
                                                             $('#myModal').modal();
+                                                        }
+                                                        else{
+                                                            var temp1 = infodict[thisbutton][0];
+                                                            var temp2 = infodict[thisbutton][1];
+                                                            var temp3 = infodict[thisbutton][2];
+                                                            var temp4 = infodict[thisbutton][3];
+                                                            infodict[thisbutton][0] = $(ui.draggable).children().eq(0).html();
+                                                            infodict[thisbutton][1] = $(ui.draggable).children().eq(1).html();
+                                                            infodict[thisbutton][2] = $(ui.draggable).children().eq(2).html();
+                                                            infodict[thisbutton][3] = $(ui.draggable).children().eq(3).html();
+                                                            $(ui.draggable).children().eq(0).html(temp1);
+                                                            $(ui.draggable).children().eq(1).html(temp2);
+                                                            $(ui.draggable).children().eq(2).html(temp3);
+                                                            $(ui.draggable).children().eq(3).html(temp4);
+                                                            document.getElementById(thisbutton).innerHTML = infodict[thisbutton][1]+" "+infodict[thisbutton][2]+infodict[thisbutton][0]+infodict[thisbutton][3];
+                                                            var tr = document.getElementById($(ui.draggable).attr("id"));
+                                                            tr.style.background = "yellow";
                                                         }                    
                                                     },
                                                     error: function(e){
