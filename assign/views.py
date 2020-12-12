@@ -635,19 +635,29 @@ def person_info(request):
     user = request.user
 
     if request.method == "POST":
-        password_old = request.POST['password1']
-        password_new1 = request.POST['password2']
-        password_new2 = request.POST['password3']
-        user = authenticate(username=user.userid, password=password_old)
-        if user is not None and password_new1==password_new2: # 原密码正确并且两次输入的密码相同
-            try:
-                user.set_password(password_new1)
-                user.save()
-                status = 1
-            except:
-                status = 0
+        _type = request.POST['_type']
+        if _type == '0':
+            rid = requests.POST['roomid']
+            with connection.cursor() as cursor:
+                try:
+                    cursor.execute("update Teacher set rid=%s where id=%s", [rid,user.username])
+                    status = 1
+                except:
+                    status = 0
         else:
-            status = 0
+            password_old = request.POST['password1']
+            password_new1 = request.POST['password2']
+            password_new2 = request.POST['password3']
+            user = authenticate(username=user.userid, password=password_old)
+            if user is not None and password_new1==password_new2: # 原密码正确并且两次输入的密码相同
+                try:
+                    user.set_password(password_new1)
+                    user.save()
+                    status = 1
+                except:
+                    status = 0
+            else:
+                status = 0
 
         response = HttpResponse(json.dumps({
             "status": status
@@ -656,12 +666,17 @@ def person_info(request):
         
     if user.is_staff:
         url = 'assign/admin_info.html'
+        roomid = 0
     else:
         url = 'assign/teacher_info.html'
+        with connection.cursor() as cursor:
+            cursor.execute("select rid from Teacher where id=%s", [user.username])
+            roomid = cursor.fetchall()[0][0]
 
     return render(request, url, {
         'tid': json.dumps(user.username),
-        'username': json.dumps(user.first_name)
+        'username': json.dumps(user.first_name),
+        'roomid': json.dumps(roomid)
     })        
 
 

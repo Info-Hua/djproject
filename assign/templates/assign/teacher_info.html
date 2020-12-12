@@ -209,7 +209,8 @@
         $.ajax({
             url:"{% url 'assign:person_info' %}",
             type: "POST",
-            data: {password1: _password1,
+            data: {_type: 1,
+		   password1: _password1,
                    password2: _password2,
                    password3: _password3},
             success: function(data){
@@ -293,7 +294,7 @@
         $.ajax({
             url:"{% url 'assign:person_info' %}",
             type: "POST",
-            data: {roomid: id},
+            data: {_type:0,roomid: id},
             success: function(data){
                 data = JSON.parse(data);
                 if(data["status"] == 1){
