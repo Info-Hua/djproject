@@ -408,16 +408,16 @@ def admin_account(request):
                                 status = 0
                 except:
                     status = 0
-            else: # 删除账户
+            else: # 删除账户，同时删除导师记录
                 try:
                     delete_info = request.POST.getlist('delete_info')
-                    print(delete_info)
                     for ac in delete_info:
                         ac = ac.split(',')
-                        print(ac)
                         user = User.objects.get(username=ac[0])
                         if user is not None:
                             user.delete()
+                            with connection.cursor() as cursor:
+                                cursor.execute("delete from Teacher where id=%s", [ac[0]])
                             status = 1
                         else:
                             status = 0
@@ -708,43 +708,47 @@ def auto_assign(request):
     #                           优先级越高，排在越前面）
     # 编号 期望分配的实验室
     print("test auto")
-    with connection.cursor() as cursor:
-        cursor.execute("select S.id,T.rid from Student S,Teacher T where S.cid is null and S.tid=T.id order by S.stype,S.id")
-        cand = cursor.fetchall() # 是否要判断cand为空？
-        print(cand)
-        # 在已有视图CTech上得到每个实验室内每个工位的分数
-        # 每个未分配学生都
-        untaken = dict() # 每个实验室的id为key，value为该实验室中空闲工位的id list，
-        cursor.execute("select id from Room order by id asc")
-        labs = cursor.fetchall()
-        for e in labs:
-            cursor.execute("select id from Chair where rid=%s and taken='0' and ctype<>'2' order by ctype",[e[0]])
-            eids = cursor.fetchall()
-            temp = []
-            for eid in eids:
-                temp.append(eid[0])
-            untaken[e[0]] = temp
-        print(untaken)
+    try:
+        with connection.cursor() as cursor:
+            cursor.execute("select S.id,T.rid from Student S,Teacher T where S.cid is null and S.tid=T.id order by S.stype,S.id")
+            cand = cursor.fetchall() # 是否要判断cand为空？
+            print(cand)
+            # 在已有视图CTech上得到每个实验室内每个工位的分数
+            # 每个未分配学生都
+            untaken = dict() # 每个实验室的id为key，value为该实验室中空闲工位的id list（按照固定、临时的排序），
+            cursor.execute("select id from Room order by id asc")
+            labs = cursor.fetchall()
+            for e in labs:
+                cursor.execute("select id from Chair where rid=%s and taken='0' and ctype<>'2' order by ctype",[e[0]])
+                eids = cursor.fetchall() # 得到每个实验室内空闲工位的编号
+                temp = []
+                for eid in eids:
+                    temp.append(eid[0])
+                untaken[e[0]] = temp
+            print(untaken)
 
-        for c in cand: # 先尝试把学生分配到导师所在的实验室，如果该实验室内没有空位，需要检查邻近的实验室
-            if c[1] in untaken: # 学生期望实验室在实验室列表中
-                if len(untaken[c[1]]) != 0: # 对应实验室有空位
-                    cursor.execute("update Student set cid=%s where id=%s", [untaken[c[1]][0], c[0]])
-                    untaken[c[1]].pop(0)
-                else: # 得到邻近实验室
-                    cursor.execute("select id from Room R where id<>%s order by abs(id-%s)", [c[1],c[1]])
-                    temp = cursor.fetchall()
-                    print(temp)
-                    for lab in temp: # 分配到邻近实验室  lab为(417,)的形式       
-                        if len(untaken[lab[0]]) != 0:
-                            print("test")
-                            nei = lab[0]
-                            cursor.execute("update Student set cid=%s where id=%s", [untaken[nei][0], c[0]])
-                            untaken[nei].pop(0)
-                            break
+            for c in cand: # 先尝试把学生分配到导师所在的实验室，如果该实验室内没有空位，需要检查邻近的实验室
+                if c[1] in untaken: # 学生期望实验室在实验室列表中
+                    if len(untaken[c[1]]) != 0: # 对应实验室有空位
+                        cursor.execute("update Student set cid=%s where id=%s", [untaken[c[1]][0], c[0]])
+                        untaken[c[1]].pop(0)
+                    else: # 得到邻近实验室
+                        cursor.execute("select id from Room R where id<>%s order by abs(id-%s)", [c[1],c[1]])
+                        temp = cursor.fetchall()
+                        print(temp)
+                        for lab in temp: # 分配到邻近实验室  lab为(417,)的形式       
+                            if len(untaken[lab[0]]) != 0:
+                                print("test")
+                                nei = lab[0]
+                                cursor.execute("update Student set cid=%s where id=%s", [untaken[nei][0], c[0]])
+                                untaken[nei].pop(0)
+                                break
+        status = 1
+    except:
+        status = 0
 
     response = HttpResponse(json.dumps({
-        "status": 1
+        "status": status
     }))
     return response
         
