@@ -633,7 +633,7 @@ def query(request):
 @login_required()
 def person_info(request):
     user = request.user
-    logger.error("enter person")
+    # logger.error("enter person")
 
     if request.method == "POST":
         _type = request.POST['_type']
