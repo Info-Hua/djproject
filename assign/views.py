@@ -372,6 +372,7 @@ def admin_account(request):
             enroll_info = cursor.fetchall()
 
         return render(request, 'assign/admin_account.html', {
+            'username': json.dumps(request.user.first_name),
             'account_info': json.dumps(account_info),
             'enroll_info': json.dumps(enroll_info)
         })        
@@ -712,9 +713,6 @@ def auto_assign(request):
         with connection.cursor() as cursor:
             cursor.execute("select S.id,T.rid from Student S,Teacher T where S.cid is null and S.tid=T.id order by S.stype,S.id")
             cand = cursor.fetchall() # 是否要判断cand为空？
-            print(cand)
-            # 在已有视图CTech上得到每个实验室内每个工位的分数
-            # 每个未分配学生都
             untaken = dict() # 每个实验室的id为key，value为该实验室中空闲工位的id list（按照固定、临时的排序），
             cursor.execute("select id from Room order by id asc")
             labs = cursor.fetchall()
