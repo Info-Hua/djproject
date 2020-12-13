@@ -320,7 +320,8 @@
                             if(list_seat_info[num][k][3] == '2'){
                                 var message = "大门";
                                 cell.appendChild(document.createTextNode(message));
-                                cell.style.background = "red";
+                                cell.style.border = '3px rgb(35, 45, 59) solid';
+                                cell.style.textAlign = "center";
                                 break;
                             }
                             else if(list_seat_info[num][k][4] == '0'){
@@ -328,6 +329,7 @@
                                 cell.style.background = "rgb(70, 76, 83)";
                                 cell.style.color = "white";
                                 cell.appendChild(document.createTextNode(message));
+                                cell.style.textAlign = "center";
                                 break;
                             }
                             else if(count == 1){
@@ -396,7 +398,8 @@
                             if(list_seat_info[li][k][3] == '2'){
                                 var message = "大门";
                                 cell.appendChild(document.createTextNode(message));
-                                cell.style.background = "green";
+                                cell.style.border = '3px rgb(35, 45, 59) solid';
+                                cell.style.textAlign = "center";
                                 break;
                             }
                             else if(list_seat_info[li][k][4] == '0'){
@@ -404,6 +407,7 @@
                                 cell.style.background = "rgb(70, 76, 83)";
                                 cell.style.color = "white";
                                 cell.appendChild(document.createTextNode(message));
+                                cell.style.textAlign = "center";
                                 break;
                             }
                             else if(count == 1){
