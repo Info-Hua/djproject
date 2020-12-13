@@ -14,7 +14,11 @@ from django.contrib.auth import views as auth_views, authenticate, login
 import json, time, re, requests, logging
 
 from .forms import NameForm, RegisterForm, LoginForm, SearchForm#test for nameform
-colors = ('red','orange', 'yellow', 'green', 'blue')
+colors = (
+    'Aqua','Aquamarine', 'Blue', 'BlueViolet', 'Brown', 'BurlyWood', 'CadetBlue', 'DarkCyan', 'DarkGoldenRod',
+    'DarkGreen', 'DarkKhaki', 'DarkMagenta', 'DarkOliveGreen', 'DarkOrange','DarkSalmon','DarkSeaGreen','DarkSlateBlue',
+    'DarkTurquoise','Navy'
+)
 logger = logging.getLogger(__name__)
 
 
