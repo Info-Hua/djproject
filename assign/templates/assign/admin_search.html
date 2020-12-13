@@ -296,5 +296,13 @@
             
         });
     }
+    function get_user(){
+        var username = JSON.parse('{{ username|safe }}');
+        document.getElementById("username1").appendChild(document.createTextNode(username));
+        document.getElementById("username2").appendChild(document.createTextNode(username));
+    }
+    window.onload = function() {
+        get_user();
+    }
 </script>
 </html>
