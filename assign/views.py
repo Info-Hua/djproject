@@ -574,7 +574,7 @@ def query(request):
             try:
                 temp[0]
                 for t in temp:
-                    if t not in temp:
+                    if t not in list_lab_info:
                         list_lab_info.append(t)
                 # 得到该房间的工位
                 for lab in list_lab_info:
