@@ -42,7 +42,6 @@
         color:rgb(251, 253, 255);
     }
     #main{
-        margin-top: 20px;
         width: 100%;
     }
     #title {
@@ -118,7 +117,7 @@
             </span>
         </div>                                   
     </div>
-    <div class="container result">
+    <div class="container result" id="main">
         <div id="result">
             <ul class="nav nav-tabs" id="ntabs">               
             </ul>
@@ -216,13 +215,18 @@
                             cell.appendChild(document.createTextNode(message));
 
                         }
+                        else if(list_seat_info[num][k][3] == 2){
+                            var message = "大门";
+                            cell.style.background = "red";
+                            cell.appendChild(document.createTextNode(message));
+                        }
                         else{
                             var message = "空闲工位";
                             cell.style.background = "gray";
                             cell.style.color = "white";
                             cell.appendChild(document.createTextNode(message));
                         }
-                        if(search_key == list_seat_info[num][k][search_col]){
+                        if(search_key == list_seat_info[num][k][search_col] && search_col != 4){
                             cell.style.background = "yellow";
                         }
                     }
