@@ -45,6 +45,9 @@
     #main{
         width: 100%;
     }
+    #search_container {
+        margin-left: 200px;
+    }
     #title {
         margin-top: 30px;
         text-align: center;
@@ -93,7 +96,7 @@
             </div>
         </div>
     </nav>
-    <div class="container search">
+    <div class="container search" id="search_container">
         <h1 id="title">实验室工位管理系统</h1>
         <div class="input-group input-group-lg" id="search">
             {% csrf_token %}
