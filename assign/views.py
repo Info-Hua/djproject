@@ -460,9 +460,9 @@ def admin_seat(request):
         print(info)
         _row = info[1]
         line = info[2]
-        if len(_row) == 0:
+        if len(_row) == 1:
             _row = '0'+_row
-        if len(line) == 0:
+        if len(line) == 1:
             line = '0' + line
         cid = info[0] + _row + line
         try:
