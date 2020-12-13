@@ -431,13 +431,13 @@
                                         for(var k1 = 0; k1 < list_seat_info[count-1].length; k1++){
                                             if(list_seat_info[count-1][k1][0] == i && list_seat_info[count-1][k1][1] == j){
                                                 if(list_seat_info[count-1][k1][3] == 0){
-                                                    str += '" style = "background-color: yellow; height:100px;">';
+                                                    str += '" style = "background-color: yellow; height:100px; white-space: pre-line;">';
                                                 }
                                                 else if(list_seat_info[count-1][k1][3] == 1){
-                                                    str += '" style = "background-color: orange; height:100px;">';
+                                                    str += '" style = "background-color: orange; height:100px; white-space: pre-line;">';
                                                 }
                                                 else if(list_seat_info[count-1][k1][3] == 2){
-                                                    str += '" style = "background-color: red; height:100px;">';
+                                                    str += '" style = "background-color: red; height:100px; white-space: pre-line;">';
                                                     infodict[s][4] = list_seat_info[count-1][k1][3];
                                                     flagdict[s] = 2;
                                                     str += "大门";
@@ -468,12 +468,12 @@
                                         }
                                         if(flag != 1){
                                             flagdict[s] = 1;
-                                            str += '" style = "height:100px;">';
+                                            str += '" style = "height:100px; white-space: pre-line;">';
                                         }
                                     }
                                     else{
                                         flagdict[s] = 1;
-                                        str += '" style = "height:100px;">';
+                                        str += '" style = "height:100px; white-space: pre-line;">';
                                     }
                                     str += '</button>';
                                     str += '</td>';
@@ -540,7 +540,7 @@
                                                             infodict[thisbutton][1] = $(ui.draggable).children().eq(1).html();
                                                             infodict[thisbutton][2] = $(ui.draggable).children().eq(2).html();
                                                             infodict[thisbutton][3] = $(ui.draggable).children().eq(3).html();
-                                                            document.getElementById(thisbutton).innerHTML = infodict[thisbutton][1]+" "+infodict[thisbutton][2]+infodict[thisbutton][0]+infodict[thisbutton][3];
+                                                            document.getElementById(thisbutton).innerHTML =  "姓名："+infodict[thisbutton][1]+"\n"+"学号："+infodict[thisbutton][0]+"\n"+"身份："+infodict[thisbutton][2]+"\n"+"导师："+infodict[thisbutton][3];
                                                             flagdict[thisbutton] = flagdict[thisbutton] + 1;
 
                                                             var tbody1 = document.getElementById("tbody");
@@ -596,7 +596,7 @@
                                                             $(ui.draggable).children().eq(1).html(temp2);
                                                             $(ui.draggable).children().eq(2).html(temp3);
                                                             $(ui.draggable).children().eq(3).html(temp4);
-                                                            document.getElementById(thisbutton).innerHTML = infodict[thisbutton][1]+" "+infodict[thisbutton][2]+infodict[thisbutton][0]+infodict[thisbutton][3];
+                                                            document.getElementById(thisbutton).innerHTML =  "姓名："+infodict[thisbutton][1]+"\n"+"学号："+infodict[thisbutton][0]+"\n"+"身份："+infodict[thisbutton][2]+"\n"+"导师："+infodict[thisbutton][3];
                                                             var tr = document.getElementById($(ui.draggable).attr("id"));
                                                             tr.style.background = "yellow";
                                                         }                    
@@ -672,13 +672,13 @@
                                         for(var k1 = 0; k1 < list_seat_info[count-1].length; k1++){
                                             if(list_seat_info[count-1][k1][0] == i && list_seat_info[count-1][k1][1] == j){
                                                 if(list_seat_info[count-1][k1][3] == 0){
-                                                    str += '" style = "background-color: yellow; height:100px;">';
+                                                    str += '" style = "background-color: yellow; height:100px; white-space: pre-line;">';
                                                 }
                                                 else if(list_seat_info[count-1][k1][3] == 1){
-                                                    str += '" style = "background-color: orange; height:100px;">';
+                                                    str += '" style = "background-color: orange; height:100px; white-space: pre-line;">';
                                                 }
                                                 else if(list_seat_info[count-1][k1][3] == 2){
-                                                    str += '" style = "background-color: red; height:100px;">';
+                                                    str += '" style = "background-color: red; height:100px; white-space: pre-line;">';
                                                     infodict[s][4] = list_seat_info[count-1][k1][3];
                                                     flagdict[s] = 2;
                                                     str += "大门";
@@ -709,12 +709,12 @@
                                         }
                                         if(flag != 1){
                                             flagdict[s] = 1;
-                                            str += '" style = "height:100px;">';
+                                            str += '" style = "height:100px; white-space: pre-line;">';
                                         }
                                     }
                                     else{
                                         flagdict[s] = 1;
-                                        str += '" style = "height:100px;">';
+                                        str += '" style = "height:100px; white-space: pre-line;">';
                                     }
                                     str += '</button>';
                                     str += '</td>';
@@ -781,7 +781,7 @@
                                                             infodict[thisbutton][1] = $(ui.draggable).children().eq(1).html();
                                                             infodict[thisbutton][2] = $(ui.draggable).children().eq(2).html();
                                                             infodict[thisbutton][3] = $(ui.draggable).children().eq(3).html();
-                                                            document.getElementById(thisbutton).innerHTML = infodict[thisbutton][1]+" "+infodict[thisbutton][2]+infodict[thisbutton][0]+infodict[thisbutton][3];
+                                                            document.getElementById(thisbutton).innerHTML =  "姓名："+infodict[thisbutton][1]+"\n"+"学号："+infodict[thisbutton][0]+"\n"+"身份："+infodict[thisbutton][2]+"\n"+"导师："+infodict[thisbutton][3];
                                                             flagdict[thisbutton] = flagdict[thisbutton] + 1;
 
                                                             var tbody1 = document.getElementById("tbody");
@@ -837,7 +837,7 @@
                                                             $(ui.draggable).children().eq(1).html(temp2);
                                                             $(ui.draggable).children().eq(2).html(temp3);
                                                             $(ui.draggable).children().eq(3).html(temp4);
-                                                            document.getElementById(thisbutton).innerHTML = infodict[thisbutton][1]+" "+infodict[thisbutton][2]+infodict[thisbutton][0]+infodict[thisbutton][3];
+                                                            document.getElementById(thisbutton).innerHTML =  "姓名："+infodict[thisbutton][1]+"\n"+"学号："+infodict[thisbutton][0]+"\n"+"身份："+infodict[thisbutton][2]+"\n"+"导师："+infodict[thisbutton][3];
                                                             var tr = document.getElementById($(ui.draggable).attr("id"));
                                                             tr.style.background = "yellow";
                                                         }                    
