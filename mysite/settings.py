@@ -147,11 +147,4 @@ LOGGING = {
         },
     },
 }}
-# log to file
-import logging
-logging.basicConfig(
-    level = logging.DEBUG,
-    format = '%(asctime)s %(levelname)s %(message)s',
-    filename = '/tmp/djangoLog.log',
-    filemode = 'w'
-)
+
