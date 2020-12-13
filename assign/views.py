@@ -15,6 +15,7 @@ import json, time, re, requests, logging
 
 from .forms import NameForm, RegisterForm, LoginForm, SearchForm#test for nameform
 colors = ('red','orange', 'yellow', 'green', 'blue')
+logger = logging.getLogger(__name__)
 
 
 #注册视图，考虑要不要检查前端发过来的数据有效性，如果无效应该怎么处理
@@ -632,6 +633,7 @@ def query(request):
 @login_required()
 def person_info(request):
     user = request.user
+    logger.error("enter person")
 
     if request.method == "POST":
         _type = request.POST['_type']

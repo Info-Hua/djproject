@@ -127,9 +127,26 @@ STATIC_ROOT = os.path.join(BASE_DIR,'static_root')
 STATIC_URL = '/static/'
 
 
+import os
+
+LOGGING = {
+        'version': 1,
+        'disable_existing_loggers': False,
+        'handlers': {
+                'console': {
+                        'class': 'logging.StreamHandler',
+                },
+        },
+        'root': {
+                'handlers': ['console'],
+                'level': 'WARNING',
+        },
+}
 # log to file
 import logging
 logging.basicConfig(
-    level = logging.INFO,
+    level = logging.DEBUG,
     format = '%(asctime)s %(levelname)s %(message)s',
-    filename = '/tmp/djangoLog.log',)
+    filename = '/tmp/djangoLog.log',
+    filemode = 'w'
+)
