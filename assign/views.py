@@ -574,7 +574,8 @@ def query(request):
             try:
                 temp[0]
                 for t in temp:
-                    list_lab_info.append(t)
+                    if t not in temp:
+                        list_lab_info.append(t)
                 # 得到该房间的工位
                 for lab in list_lab_info:
                     cursor.execute("select C._row,C.line,C.id,C.ctype,C.taken,S.name,S.id,S.stype,S.tid,T.gname from Chair C left join Student S on C.id=S.cid left join Teacher T on S.tid = T.id where C.rid=%s;",[lab[0]])
