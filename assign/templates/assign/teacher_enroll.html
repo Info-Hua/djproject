@@ -99,7 +99,6 @@
             <div class="form-inline">
                 <!--<button class="btn btn-primary btn-lg" id="insert" onclick="show_InsertFrame();close_UpdateFrame();">添加</button>-->
                 <button class="btn btn-primary btn-lg" id="insert" data-toggle="modal" data-target="#mymodal" onclick="setnull();">添加</button>
-                <button class="btn btn-primary btn-lg" id="modify" data-toggle="modal" data-target="#mymodal" onclick="change(id);">修改</button>
                 <button class="btn btn-primary btn-lg" id="delete" onclick="del()">删除</button>
                 
             </div>
@@ -269,86 +268,56 @@
             $('#myModal2').modal();
         }
         else{
-            if(buttonid=="modify"){//执行修改操作。
-                for(var i = 0; i < count; i++){
-                    var tmp = document.getElementById(i);
-                    if(tmp.checked){
-                        var par = tmp.parentNode;//得到的tr,这样可以删掉，但在这里是修改信息。
-                        var childtr = par.children[1];
-                        childtr.innerHTML = document.getElementsByName("stuno")[0].value;
-                        childtr = par.children[2];
-                        childtr.innerHTML = document.getElementsByName("stuname")[0].value;
-                        childtr = par.children[3];
-                        childtr.innerHTML = document.getElementsByName("stucls")[0].value;
-                        childtr = par.children[4];
-                        childtr.innerHTML = document.getElementsByName("studate")[0].value;
-                        //childtr = par.children[5];
-                        //childtr.innerHTML = document.getElementsByName("sturoom")[0].value;
-                    
-                        stunamelist[i] = document.getElementsByName("stuname")[0].value;
-                        stunolist[i] = document.getElementsByName("stuno")[0].value;
-                        stuclslist[i] = document.getElementsByName("stucls")[0].value;
-                        studatelist[i] = document.getElementsByName("studate")[0].value;
-                        //sturoomlist[i] = document.getElementsByName("sturoom")[0].value;
-                        buttonid = 0;
-                        //console.log(stunamelist);
-                        break;
-                    
-                    }
-                }
-            }
-            else{//执行插入操作。
-                var para=document.createElement("tr");
-                var tdchoose = document.createElement("input");
-                tdchoose.type = 'checkbox';
-                tdchoose.id = count;
-                
-                var node1 = document.createTextNode("选择");
-                tdchoose.appendChild(node1);
-                para.appendChild(tdchoose);
-        
-                var tdno = document.createElement("td");
-                var node2=document.createTextNode(document.getElementsByName("stuno")[0].value);//如需向<li>元素添加文本，必须首先创建文本节点。这段代码创建了一个文本节点
-                tdno.appendChild(node2);//向<li>元素追加了这个文本节点
-                para.appendChild(tdno);
+            //执行插入操作。
+            var para=document.createElement("tr");
+            var tdchoose = document.createElement("input");
+            tdchoose.type = 'checkbox';
+            tdchoose.id = count;
+            
+            var node1 = document.createTextNode("选择");
+            tdchoose.appendChild(node1);
+            para.appendChild(tdchoose);
+    
+            var tdno = document.createElement("td");
+            var node2=document.createTextNode(document.getElementsByName("stuno")[0].value);//如需向<li>元素添加文本，必须首先创建文本节点。这段代码创建了一个文本节点
+            tdno.appendChild(node2);//向<li>元素追加了这个文本节点
+            para.appendChild(tdno);
 
-                var tdname = document.createElement("td");
-                var node=document.createTextNode(document.getElementsByName("stuname")[0].value);//如需向<li>元素添加文本，必须首先创建文本节点。这段代码创建了一个文本节点
-                tdname.appendChild(node);//向元素追加了这个文本节点
-                para.appendChild(tdname);
+            var tdname = document.createElement("td");
+            var node=document.createTextNode(document.getElementsByName("stuname")[0].value);//如需向<li>元素添加文本，必须首先创建文本节点。这段代码创建了一个文本节点
+            tdname.appendChild(node);//向元素追加了这个文本节点
+            para.appendChild(tdname);
 
-                var tdcls = document.createElement("td");
-                var node3=document.createTextNode(document.getElementsByName("stucls")[0].value);//如需向<li>元素添加文本，必须首先创建文本节点。这段代码创建了一个文本节点
-                tdcls.appendChild(node3);//向<li>元素追加了这个文本节点
-                para.appendChild(tdcls);
+            var tdcls = document.createElement("td");
+            var node3=document.createTextNode(document.getElementsByName("stucls")[0].value);//如需向<li>元素添加文本，必须首先创建文本节点。这段代码创建了一个文本节点
+            tdcls.appendChild(node3);//向<li>元素追加了这个文本节点
+            para.appendChild(tdcls);
 
-                var tddate = document.createElement("td");
-                var node4=document.createTextNode(document.getElementsByName("studate")[0].value);//如需向<li>元素添加文本，必须首先创建文本节点。这段代码创建了一个文本节点
-                tddate.appendChild(node4);//向<li>元素追加了这个文本节点
-                para.appendChild(tddate);
+            var tddate = document.createElement("td");
+            var node4=document.createTextNode(document.getElementsByName("studate")[0].value);//如需向<li>元素添加文本，必须首先创建文本节点。这段代码创建了一个文本节点
+            tddate.appendChild(node4);//向<li>元素追加了这个文本节点
+            para.appendChild(tddate);
 
-                var tdroom = document.createElement("td");
-                para.appendChild(tdroom);
+            var tdroom = document.createElement("td");
+            para.appendChild(tdroom);
 
-                var tdseat = document.createElement("td");
-                para.appendChild(tdseat);
+            var tdseat = document.createElement("td");
+            para.appendChild(tdseat);
 
 
-                //最后必须向一个已有的元素追加这个新元素
-                var element=document.getElementById("tablebody");//这段代码找到一个已有的元素
-                element.appendChild(para);//这段代码向这个已有的元素追加新元素
+            //最后必须向一个已有的元素追加这个新元素
+            var element=document.getElementById("tablebody");//这段代码找到一个已有的元素
+            element.appendChild(para);//这段代码向这个已有的元素追加新元素
 
-                stunamelist.push(document.getElementsByName("stuname")[0].value);
-                stunolist.push(document.getElementsByName("stuno")[0].value);
-                stuclslist.push(document.getElementsByName("stucls")[0].value);
-                studatelist.push(document.getElementsByName("studate")[0].value);
-                sturoomlist.push(document.createTextNode("0"));
-                seatlist.push(document.createTextNode("0"));
+            stunamelist.push(document.getElementsByName("stuname")[0].value);
+            stunolist.push(document.getElementsByName("stuno")[0].value);
+            stuclslist.push(document.getElementsByName("stucls")[0].value);
+            studatelist.push(document.getElementsByName("studate")[0].value);
+            sturoomlist.push(document.createTextNode("0"));
+            seatlist.push(document.createTextNode("0"));
 
-                count += 1;
-            }
-        }
-        		
+            count += 1;
+        }        		
 	}
 
     function update(){
@@ -374,13 +343,6 @@
         });
 
     }
-
-    function change(obj){
-        //buttonid = this.id;
-        buttonid = obj;
-        setnull();
-    }
-
 
     function del(){
         //$("input[name = 'ball']:checked").val()
