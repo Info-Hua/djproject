@@ -424,19 +424,32 @@
                 para.appendChild(tdchoose);
 
                 var tdno = document.createElement("td");
-                var node2=document.createTextNode(account_info[i][0]);//如需向<li>元素添加文本，必须首先创建文本节点。这段代码创建了一个文本节点
+                if(account_info[i][0] == null){
+                    var node2=document.createTextNode("");
+                }
+                else{
+                    var node2=document.createTextNode(account_info[i][0]);//如需向<li>元素添加文本，必须首先创建文本节点。这段代码创建了一个文本节点
+                }
                 tdno.appendChild(node2);//追加了这个文本节点
                 para.appendChild(tdno);
     
                 var tdname = document.createElement("td");
-                var node=document.createTextNode(account_info[i][1]);//如需向<li>元素添加文本，必须首先创建文本节点。这段代码创建了一个文本节点
+                if(account_info[i][1] == null){
+                    var node=document.createTextNode("");
+                }
+                else{
+                    var node=document.createTextNode(account_info[i][1]);//如需向<li>元素添加文本，必须首先创建文本节点。这段代码创建了一个文本节点
+                }
                 tdname.appendChild(node);//向元素追加了这个文本节点
                 para.appendChild(tdname);
      
                 
     
                 var tdcls = document.createElement("td");
-                if(account_info[i][2] == '0'){
+                if(account_info[i][2] == null){
+                    var node2=document.createTextNode("");
+                }
+                else if(account_info[i][2] == '0'){
                     var node3=document.createTextNode("否");//如需向<li>元素添加文本，必须首先创建文本节点。这段代码创建了一个文本节点
                 }
                 else if(account_info[i][2] == '1'){
@@ -457,7 +470,7 @@
                 var para=document.createElement("tr");
 
                 var tdno = document.createElement("td");
-                if(typeof enroll_info[i][0] == "null"){
+                if(enroll_info[i][0] == null){
                     var node2=document.createTextNode("");
                 }
                 else{
@@ -467,7 +480,7 @@
                 para.appendChild(tdno);
 
                 var tdname = document.createElement("td");
-                if(typeof enroll_info[i][1] == "null"){
+                if(enroll_info[i][1] == null){
                     var node=document.createTextNode("");
                 }
                 else{
