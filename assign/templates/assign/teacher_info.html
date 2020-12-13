@@ -173,6 +173,19 @@
                 </div>
             </div>
         </div>
+        <!--房间号判断不为空模态框-->
+        <div class="modal fade" id="myModal8" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body" style="text-align:center;"><h1 id="title">输入框不能为空，请重新输入</h1></div>
+                    <div class="modal-footer">
+                        <div class="btn-group" role="group" style="padding-right: 240px;">                                           
+                            <a href="" class="btn btn-primary btn-lg" data-dismiss="modal" onclick="show(1)">确定</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!--修改课题组模态框-->
         <div class="modal fade" id="myModal5" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -218,7 +231,20 @@
                     </div>
                 </div>
             </div>
-        </div>       
+        </div>
+        <!--课题组判断不为空模态框-->
+        <div class="modal fade" id="myModal9" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body" style="text-align:center;"><h1 id="title">输入框不能为空，请重新输入</h1></div>
+                    <div class="modal-footer">
+                        <div class="btn-group" role="group" style="padding-right: 240px;">                                           
+                            <a href="" class="btn btn-primary btn-lg" data-dismiss="modal" onclick="show(2)">确定</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>        
         <!--修改成功模态框-->
         <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -339,6 +365,9 @@
     }
     function ChangeRoom(){
         var id = document.getElementsByName("roomid")[0].value;
+        if(id == ""){
+            $('#myModal8').modal();
+        }
         $.ajaxSetup({
             data:{csrfmiddlewaretoken:'{{ csrf_token }}'}
         })
@@ -364,6 +393,9 @@
     }
     function ChangeGname(){
         var _gname = document.getElementsByName("gnameid")[0].value;
+        if(_gname == ""){
+            $('#myModal9').modal();
+        }
         $.ajaxSetup({
             data:{csrfmiddlewaretoken:'{{ csrf_token }}'}
         })
@@ -387,6 +419,14 @@
             }           
         });
     }
+    function show(num){
+        if(num == 1){
+            $('#myModal4').modal();
+        }
+        else if(num == 2){
+            $('#myModal7').modal();
+        }
+    }
     window.onload = function(){
         var tid = JSON.parse('{{ tid|safe }}');
         var username = JSON.parse('{{ username|safe }}');
@@ -397,8 +437,18 @@
         document.getElementById("username2").appendChild(document.createTextNode(username));
         document.getElementById("tname").appendChild(document.createTextNode(username));
         document.getElementById("tid").appendChild(document.createTextNode(tid));
-        document.getElementById("troom").appendChild(document.createTextNode(roomid));
-        document.getElementById("gname").appendChild(document.createTextNode(gname));
+        if(typeof roomid == "null"){
+            document.getElementById("troom").appendChild("无");
+        }
+        else{
+            document.getElementById("troom").appendChild(document.createTextNode(roomid));
+        }
+        if(typeof gname == "null"){
+            document.getElementById("gname").appendChild("无");
+        }
+        else{
+            document.getElementById("gname").appendChild(document.createTextNode(gname));
+        }
     }   
 </script>
 
