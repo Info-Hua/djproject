@@ -12,6 +12,7 @@
     <style>
         #body {
             background-color:rgb(235, 239, 240);
+            width:130%;
         }
         #navigation-nav {
             background-color:rgb(35, 45, 59);
@@ -43,6 +44,7 @@
         }
         #main{
             margin-top: 20px;
+            width: 100%;
         }
         #panel {
             background-color:rgb(35, 45, 59);
@@ -309,7 +311,7 @@
                     var cell=document.createElement("td");
                     cell.setAttribute('height', '80px');
                     cell.setAttribute('width', '100px');
-                    cell.setAttribute('style','white-space: pre-line;');
+                    cell.setAttribute('style','white-space: pre-line;font-size: 12px;');
                     for(var k = 0; k < list_seat_info[num].length; k++){
                         if(list_seat_info[num][k][0] == i && list_seat_info[num][k][1] == j){
                             if(list_seat_info[num][k][4] == '0'){
@@ -385,7 +387,7 @@
                     var cell=document.createElement("td");
                     cell.setAttribute('height', '80px');
                     cell.setAttribute('width', '100px');
-                    cell.setAttribute('style','white-space: pre-line;');
+                    cell.setAttribute('style','white-space: pre-line;font-size: 12px;');
                     for(var k = 0; k < list_seat_info[li].length; k++){
                         if(list_seat_info[li][k][0] == i && list_seat_info[li][k][1] == j){
                             if(list_seat_info[li][k][4] == '0'){
@@ -458,7 +460,7 @@
             p.appendChild(document.createTextNode(dict_tname[list_lab_teacher[0][i]]));
             var d = document.createElement("div");
             d.setAttribute('class', 'panel panel-body');
-            d.setAttribute('style', 'width: 50px;');
+            d.setAttribute('style', 'width: 100px;');
             d.style.background = dict_color[list_lab_teacher[0][i]];
             document.getElementById("p1").appendChild(p);
             document.getElementById("p1").appendChild(d);
@@ -483,7 +485,7 @@
                         p.appendChild(document.createTextNode(dict_tname[list_lab_teacher[i][j]]));
                         var d = document.createElement("div");
                         d.setAttribute('class', 'panel panel-body');
-                        d.setAttribute('style', 'width: 50px;');
+                        d.setAttribute('style', 'width: 100px;');
                         d.style.background = dict_color[list_lab_teacher[i][j]];
                         pict1.appendChild(p);
                         pict1.appendChild(d);
@@ -497,7 +499,7 @@
             p.appendChild(document.createTextNode(dict_tname[tid]));
             var d = document.createElement("div");
             d.setAttribute('class', 'panel panel-body');
-            d.setAttribute('style', 'width: 50px;');
+            d.setAttribute('style', 'width: 100px;');
             d.style.background = dict_color[tid];
             pict1.appendChild(p);
             pict1.appendChild(d);
