@@ -15,8 +15,8 @@ import json, time, re, requests, logging
 
 from .forms import NameForm, RegisterForm, LoginForm, SearchForm#test for nameform
 colors = (
-    'Aqua','Aquamarine', 'Blue', 'BlueViolet', 'Brown', 'BurlyWood', 'CadetBlue', 'DarkCyan', 'DarkGoldenRod',
-    'DarkGreen', 'DarkKhaki', 'DarkMagenta', 'DarkOliveGreen', 'DarkOrange','DarkSalmon','DarkSeaGreen','DarkSlateBlue',
+    'Aqua','Aquamarine', 'Blue', 'BlueViolet', 'Brown', 'BurlyWood', 'CadetBlue', 'Azure', 'Beige',
+    'Bisque', 'DodgerBlue', 'FloralWhite', 'HoneyDew', 'DarkOrange','DarkSalmon','DarkSeaGreen','DarkSlateBlue',
     'DarkTurquoise','Navy'
 )
 logger = logging.getLogger(__name__)
