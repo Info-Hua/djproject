@@ -317,17 +317,17 @@
                     cell.setAttribute('style','white-space: pre-line;font-size: 12px;');
                     for(var k = 0; k < list_seat_info[num].length; k++){
                         if(list_seat_info[num][k][0] == i && list_seat_info[num][k][1] == j){
-                            if(list_seat_info[num][k][4] == '0'){
+                            if(list_seat_info[num][k][3] == '2'){
+                                var message = "大门";
+                                cell.appendChild(document.createTextNode(message));
+                                cell.style.background = "red";
+                                break;
+                            }
+                            else if(list_seat_info[num][k][4] == '0'){
                                 var message = "空闲工位";
                                 cell.style.background = "rgb(70, 76, 83)";
                                 cell.style.color = "white";
                                 cell.appendChild(document.createTextNode(message));
-                                break;
-                            }
-                            else if(list_seat_info[num][k][3] == '2'){
-                                var message = "大门";
-                                cell.appendChild(document.createTextNode(message));
-                                cell.style.background = "green";
                                 break;
                             }
                             else if(count == 1){
@@ -381,9 +381,9 @@
         }
         else{
             var list_index = JSON.parse('{{ list_index|safe }}');
-            var r = list_lab_info[num][1];
-            var c = list_lab_info[num][2];
             var li = list_index[num];
+            var r = list_lab_info[li][1];
+            var c = list_lab_info[li][2];
             for(var i = 0; i < r; i++){
                 var row=document.createElement("tr"); 
                 for(var j = 0; j < c; j++){
@@ -393,17 +393,17 @@
                     cell.setAttribute('style','white-space: pre-line;font-size: 12px;');
                     for(var k = 0; k < list_seat_info[li].length; k++){
                         if(list_seat_info[li][k][0] == i && list_seat_info[li][k][1] == j){
-                            if(list_seat_info[li][k][4] == '0'){
+                            if(list_seat_info[li][k][3] == '2'){
+                                var message = "大门";
+                                cell.appendChild(document.createTextNode(message));
+                                cell.style.background = "green";
+                                break;
+                            }
+                            else if(list_seat_info[li][k][4] == '0'){
                                 var message = "空闲工位";
                                 cell.style.background = "rgb(70, 76, 83)";
                                 cell.style.color = "white";
                                 cell.appendChild(document.createTextNode(message));
-                                break;
-                            }
-                            else if(list_seat_info[li][k][3] == '2'){
-                                var message = "大门";
-                                cell.appendChild(document.createTextNode(message));
-                                cell.style.background = "green";
                                 break;
                             }
                             else if(count == 1){
