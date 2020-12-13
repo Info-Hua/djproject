@@ -288,7 +288,6 @@
                 $('#myModal2').modal();
             }
             else{ 
-                alert(1);
                 var para=document.createElement("tr");
                 var tdchoose = document.createElement("input");
                 tdchoose.type = 'checkbox';
@@ -327,7 +326,6 @@
                 teacherinfo[2] = $('input:radio[name="tcls"]:checked').val();
                 teacherinfo[3] = document.getElementsByName("password1")[0].value;
                 teacherinfo[4] = document.getElementsByName("password2")[0].value;
-                alert(teacherinfo);
                 count += 1;
 
                 $.ajaxSetup({
