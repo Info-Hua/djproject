@@ -11,6 +11,7 @@
     <style>
     #body {
         background-color:rgb(235, 239, 240);
+        width: 130%;
     }
     #navigation-nav {
         background-color:rgb(35, 45, 59);
@@ -42,6 +43,7 @@
     }
     #main{
         margin-top: 20px;
+        width: 100%;
     }
     #title {
         margin-top: 30px;
@@ -204,7 +206,7 @@
                 cell.setAttribute('height', '80px');
                 cell.setAttribute('width', '100px');
                 cell.setAttribute('class', 'text-center');
-                cell.setAttribute('style', 'white-space:pre-line');
+                cell.setAttribute('style', 'white-space:pre-line;font-size: 12px;');
                 for(var k = 0; k < list_seat_info[num].length; k++){
                     if(list_seat_info[num][k][0] == i && list_seat_info[num][k][1] == j){
                         if(list_seat_info[num][k][4] == 1){
