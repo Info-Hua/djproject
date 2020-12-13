@@ -15,7 +15,7 @@ import json, time, re, requests, logging
 
 from .forms import NameForm, RegisterForm, LoginForm, SearchForm#test for nameform
 colors = (
-    'Aqua','Aquamarine', 'Blue', 'BlueViolet', 'Brown', 'BurlyWood', 'CadetBlue', 'Azure', 'Beige',
+    'Aqua','Aquamarine', 'Lavender', 'LightCyan', 'Brown', 'BurlyWood', 'SeaShell', 'Azure', 'Beige',
     'Bisque', 'DodgerBlue', 'FloralWhite', 'HoneyDew', 'DarkOrange','DarkSalmon','DarkSeaGreen','DarkSlateBlue',
     'DarkTurquoise','Navy'
 )
