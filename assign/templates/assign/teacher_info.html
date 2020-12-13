@@ -442,13 +442,13 @@
         document.getElementById("tname").appendChild(document.createTextNode(username));
         document.getElementById("tid").appendChild(document.createTextNode(tid));
         if(roomid == null){
-            document.getElementById("troom").appendChild("无");
+            document.getElementById("troom").appendChild(document.createTextNode("无"));
         }
         else{
             document.getElementById("troom").appendChild(document.createTextNode(roomid));
         }
         if(gname == null){
-            document.getElementById("gname").appendChild("无");
+            document.getElementById("gname").appendChild(document.createTextNode("无"));
         }
         else{
             document.getElementById("gname").appendChild(document.createTextNode(gname));
