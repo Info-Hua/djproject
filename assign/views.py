@@ -513,7 +513,9 @@ def search(request):
         url = 'assign/admin_search.html'
     else:
         url = 'assign/teacher_search.html'
-    return render(request, url)
+    return render(request, url, {
+        'username': json.dumps(user.first_name)
+    })
 
 
 # 返回查询结果
