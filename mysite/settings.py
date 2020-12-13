@@ -130,18 +130,23 @@ STATIC_URL = '/static/'
 import os
 
 LOGGING = {
-        'version': 1,
-        'disable_existing_loggers': False,
-        'handlers': {
-                'console': {
-                        'class': 'logging.StreamHandler',
-                },
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': '/home/djproject/debug.log',
         },
-        'root': {
-                'handlers': ['console'],
-                'level': 'WARNING',
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
         },
-}
+    },
+}}
 # log to file
 import logging
 logging.basicConfig(
