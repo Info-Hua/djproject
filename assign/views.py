@@ -638,7 +638,7 @@ def person_info(request):
     if request.method == "POST":
         _type = request.POST['_type']
         if _type == '0':
-            rid = requests.POST['roomid']
+            rid = request.POST['roomid']
             with connection.cursor() as cursor:
                 try:
                     cursor.execute("update Teacher set rid=%s where id=%s", [rid,user.username])
