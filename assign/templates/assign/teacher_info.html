@@ -441,13 +441,13 @@
         document.getElementById("username2").appendChild(document.createTextNode(username));
         document.getElementById("tname").appendChild(document.createTextNode(username));
         document.getElementById("tid").appendChild(document.createTextNode(tid));
-        if(typeof roomid == "null"){
+        if(roomid == null){
             document.getElementById("troom").appendChild("无");
         }
         else{
             document.getElementById("troom").appendChild(document.createTextNode(roomid));
         }
-        if(typeof gname == "null"){
+        if(gname == null){
             document.getElementById("gname").appendChild("无");
         }
         else{
