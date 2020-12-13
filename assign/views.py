@@ -221,7 +221,8 @@ def teacher_index(request):
             temp = [lab[0]]
             cursor.execute("select tid from Student where cid like %s and cid is not null", [str(lab[0])+'%'])
             for e in cursor.fetchall():
-                temp.append(e[0])
+                if e[0] not in temp:
+                    temp.append(e[0])
             list_lab_teacher.append(temp)
         
         # 得到包含有该导师学生的实验室数组
@@ -330,15 +331,15 @@ def admin_index(request):
             ids.append(temp[t][0])
         dict_color = dict(zip(ids,colors))
 
-        
         # 得到每个实验室内老师的编号，通过某个实验室中学生得到当前实验室中老师有哪些
         list_lab_teacher = []
         for lab in list_lab_info:
             temp = [lab[0]]
             cursor.execute("select tid from Student where cid like %s", [str(lab[0])+'%'])
             for e in cursor.fetchall():
-                temp.append(e[0])
-            list_lab_teacher.append(temp)
+                if e[0] not in temp:
+                    temp.append(e[0])
+            list_lab_teacher.append(temp) 
         
         # 得到未分配座位学生名单
         cursor.execute("select S.name,S.id,S.stype,S.enroll_date,T.name from Student S,Teacher T where S.cid=NULL and S.tid=T.id order by T.id")
