@@ -153,7 +153,7 @@
             </div>
 
             <div class="col-sm-4">
-                <a href="" class="btn btn-primary btn-lg" style="height:50px;width:200px;" onclick="Add()">自动分配工位</a>
+                <button class="btn btn-primary btn-lg" style="height:50px;width:200px;" onclick="Add()">自动分配工位</button>
                 <div class="well" style="margin-top: 20px;">
                     <nav class="navbar navbar-default" id="n2">
                         <h3 class="text-center">最近录入情况</h3>
@@ -259,7 +259,6 @@
         window.onload = function(){
             a();
             get_user();
-            $('#myModal3').modal();
         }
         function get_user(){
             var username = JSON.parse('{{ username|safe }}');
@@ -295,7 +294,6 @@
                         alert("自动分配失败");
                     }
                     else{
-                        alert(result["status"]);
                         $('#myModal3').modal();
                     }
                 },
