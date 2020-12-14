@@ -201,6 +201,30 @@
             </div>
         </div>
         <!-- 模态框（Modal）end -->
+        <!-- 删除实验室失败模态框（Modal） -->
+        <div class="modal fade" id="myModal5" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body" style="text-align:center;color:red;"><h1 id="title">删除实验室失败</h1></div>
+                    <div class="modal-footer">                                                                  
+                        <a href="" class="btn btn-primary btn-lg" data-dismiss="modal">确定</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 模态框（Modal）end -->
+        <!-- 删除实验室成功模态框（Modal） -->
+        <div class="modal fade" id="myModal6" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body" style="text-align:center;"><h1 id="title">删除实验室成功</h1></div>
+                    <div class="modal-footer">                                                                  
+                        <a href="{% url 'assign:admin_seat' %}" class="btn btn-primary btn-lg" data-dismiss="modal">确定</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 模态框（Modal）end -->
     </div>
 
     <script type="text/javascript">
@@ -349,6 +373,9 @@
                 str +=                '<button type="button" class="btn btn-default" onclick="add(';
                 str += String(i+1);
                 str += ')">确定</button>';
+                str +=                '<button type="button" class="btn btn-default" onclick="del(';
+                str += String(i+1);
+                str += ')">删除</button>';
                 str +=            '</form>';
                 str +=        '</div>';
                 str +=    '</div>';
@@ -868,6 +895,37 @@
                     }
                 })
             }
+        }
+        //删除实验室
+        function del(count){
+            var labid = document.getElementById("labid"+String(count)).value;
+            var info_send = ['0'];
+            info_send[0] = labid;
+            $.ajaxSetup({
+                    data:{csrfmiddlewaretoken:'{{ csrf_token }}'}
+                })
+                $.ajax({
+                    type: "POST",
+                    url: "{% url 'assign:admin_seat' %}",
+                    traditional: true,
+                    async:false,
+                    data:{
+                        actype: 7,
+                        info: info_send
+                    },
+                    success: function(result) {
+                        result = JSON.parse(result);
+                        if(result["status"] == 0){
+                            $('#myModal5').modal();
+                        } 
+                        else{
+                            $('#myModal6').modal();
+                        }                   
+                    },
+                    error: function(e){
+                        $('#myModal5').modal();
+                    }
+                });
         } 
         //调用此方法触发模态框
         function editInfo(obj, i, j, labid) {
