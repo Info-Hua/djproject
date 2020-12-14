@@ -59,12 +59,48 @@ END
 # 更新学生信息要释放旧有工位再占用新工位
 DELIMITER |
 
+create trigger change_chair before update on Student
+for each row BEGIN
+if old.cid is not NULL then
+update Chair C set C.taken='0' where C.id=old.cid;
+end if;
+update Chair C set C.taken='1' where C.id=NEW.cid;
+end
+|
 create trigger change_chair after update on Student
 for each row BEGIN
-update Chair C set C.taken = '0' where C.id = old.cid;
-update Chair C set C.taken = '1' where C.id = new.cid;
+if old.cid is not NULL then
+update Chair C set C.taken = '0' where C.id = OLD.cid;
+end if;
+update Chair C set C.taken = '1' where C.id = NEW.cid;
 END
 |
+# 当工位编号改变时，学生表的cid字段也要发生同样的变化
+DELIMITER |
+create trigger change_cid after update on Chair
+for each row BEGIN
+update Student S set S.cid = new.id where S.cid=old.id;
+END
+|
+# 更新工位代码
+先把所有工位的横纵加上20，编号为期望编号
+然后把学生使用的工位更新
+删除横小于20的工位
+把所有工位横纵减20
+cursor.execute("select * from Chair")
+ch = cursor.fetchall()
+for c in ch:
+    _row = str(c[2])
+    if len(_row)==1:
+        _row = '0'+_row
+    line = str(c[3])
+    if len(line)==1:
+        line = '0'+line
+    nid = str(c[1])+_row+line
+    cursor.execute("insert into Chair values(%s,%s,%s,%s,%s,%s)",[nid, c[1],c[2]+20,c[3]+20,c[4],c[5]])
+    cursor.execute("update Student set cid=%s where cid=%s", [nid,c[0]])
+cursor.execute("delete from Chair where _row<20")
+cursor.execute("update Chair set _row=_row-20, line=line-20)
 # 老师和课题组（ganme）为多对一的关系
 create table Teacher(
     id char(11) primary key,
