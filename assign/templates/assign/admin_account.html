@@ -290,6 +290,7 @@
                     },
                 success: function(result) {
                     result = JSON.parse(result);
+                    alert(result["status"]);
                     if(result["status"] == 0){
                         alert("自动分配失败");
                     }
