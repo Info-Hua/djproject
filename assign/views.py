@@ -571,7 +571,7 @@ def query(request):
             search_col = 5
             search_key = key
         elif stype == '3': # 导师编号，先得到导师学生所在实验室，再得到实验室的工位信息
-            cursor.execute("select R.id,R._row,R.line from Teacher T, Student S, Chair C, Room R where T.id=%s and S.tid=T.id and S.cid = C.id and C.rid=R.id", [key])
+            cursor.execute("select R.id,R._row,R.line from Teacher T, Student S, Chair C, Room R where T.id=%s and S.tid=T.id and S.cid = C.id and C.rid=R.id order by R.id", [key])
             temp = cursor.fetchall()
             print(temp)
             try:
@@ -597,7 +597,7 @@ def query(request):
                 tids[0]
                 # 得到需要显示的实验室
                 for tid in tids:
-                    cursor.execute("select R.id,R._row,R.line from Teacher T, Student S, Chair C, Room R where T.id=%s and S.tid=T.id and S.cid = C.id and C.rid=R.id", [tid])
+                    cursor.execute("select R.id,R._row,R.line from Teacher T, Student S, Chair C, Room R where T.id=%s and S.tid=T.id and S.cid = C.id and C.rid=R.id order by R.id", [tid])
                     temp = cursor.fetchall()
                     for r in temp:
                         if r[0] not in appr_labs:
