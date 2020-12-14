@@ -642,7 +642,6 @@ def query(request):
 @login_required()
 def person_info(request):
     user = request.user
-    # logger.error("enter person")
 
     if request.method == "POST":
         _type = request.POST['_type']
@@ -658,7 +657,7 @@ def person_info(request):
             password_old = request.POST['password1']
             password_new1 = request.POST['password2']
             password_new2 = request.POST['password3']
-            user = authenticate(username=user.userid, password=password_old)
+            user = authenticate(username=user.username, password=password_old)
             if user is not None and password_new1==password_new2: # 原密码正确并且两次输入的密码相同
                 try:
                     user.set_password(password_new1)
