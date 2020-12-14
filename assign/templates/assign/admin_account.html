@@ -259,6 +259,7 @@
         window.onload = function(){
             a();
             get_user();
+            $('#myModal3').modal();
         }
         function get_user(){
             var username = JSON.parse('{{ username|safe }}');
