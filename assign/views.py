@@ -483,7 +483,7 @@ def admin_seat(request):
                     print("test")
                     temp = cursor.fetchall()
                     if len(temp) != 0:
-                        raise EOFError
+                        raise EnvironmentError
                 elif actype == '6': # 添加房间
                     cursor.execute("insert into Room values(%s,%s,%s)",[info[0],info[1],info[2]])
                 elif actype == '7': # 删除房间
