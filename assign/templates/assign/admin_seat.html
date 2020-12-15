@@ -900,8 +900,12 @@
         //删除实验室
         function del(count){
             var labid = document.getElementById("labid"+String(count)).value;
-            var info_send = ['0'];
+            var row = document.getElementById("row"+String(count)).value;
+            var col = document.getElementById("col"+String(count)).value;
+            var info_send = ['0', '0', '0'];
             info_send[0] = labid;
+            info_send[1] = row;
+            info_send[2] = col;
             $.ajaxSetup({
                     data:{csrfmiddlewaretoken:'{{ csrf_token }}'}
                 })
