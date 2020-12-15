@@ -479,14 +479,16 @@ def admin_seat(request):
                 elif actype == '4': # 交换
                     # cursor.execute("update Student set cid=NULL where id = %s", [info[3]])
                     cursor.execute("update Student set cid=%s where id = %s", [cid,info[4]])
-                elif actype == '5': # 验证工位行列修改是否合法
+                elif actype == '5': # 验证实验室行列修改是否合法
                     cursor.execute("select * from Chair where taken='1' and rid=%s and (_row>=%s or line>=%s)", [info[0],info[1],info[2]])
-                    # print("test")
-                    # temp = cursor.fetchall()
-                    # if len(temp) != 0:
-                    #     turn = True
-                    # else:
-                    #     cursor.execute("update Room set _row=%s,line=%s where id=%s", [info[1],info[2],info[0]])
+                    temp = cursor.fetchall()
+                    cursor.execute("select * from Room where id=%s",[info[0]])
+                    room = cursor.fetchall()
+                    if room[0][1] != info[1] or room[0][2] != info[2]: # 进行房间行列修改
+                        if len(temp) != 0:
+                            turn = True
+                        else:
+                            cursor.execute("update Room set _row=%s,line=%s where id=%s", [info[1],info[2],info[0]])
                 elif actype == '6': # 添加房间
                     cursor.execute("insert into Room values(%s,%s,%s)",[info[0],info[1],info[2]])
                 elif actype == '7': # 删除房间
