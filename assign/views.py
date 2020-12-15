@@ -486,6 +486,8 @@ def admin_seat(request):
                         raise EOFError
                 elif actype == '6': # 添加房间
                     cursor.execute("insert into Room values(%s,%s,%s)",[info[0],info[1],info[2]])
+                elif actype == '7': # 删除房间
+                    cursor.execute("delete from Room where id=%s", [info[0]])
             status = 1
         except:
             status = 0

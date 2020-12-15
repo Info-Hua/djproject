@@ -82,6 +82,12 @@ for each row BEGIN
 update Student S set S.cid = new.id where S.cid=old.id;
 END
 |
+# 删除某个房间，把所有该房间的工位删除
+create trigger delete_room before delete on Room
+for each row BEGIN
+delete from Chair C where C.rid = old.id;
+END
+|
 # 更新工位代码
 先把所有工位的横纵加上20，编号为期望编号
 然后把学生使用的工位更新
