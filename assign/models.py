@@ -56,17 +56,7 @@ for each row BEGIN
 update Chair C set C.taken = '1' where C.id = new.cid;
 END
 |
-# 更新学生信息要释放旧有工位再占用新工位
-DELIMITER |
-
-create trigger change_chair before update on Student
-for each row BEGIN
-if old.cid is not NULL then
-update Chair C set C.taken='0' where C.id=old.cid;
-end if;
-update Chair C set C.taken='1' where C.id=NEW.cid;
-end
-|
+# 改变学生工位，需要把原来工位（如果原来使用工位）置为0，现在工位置为1
 create trigger change_chair after update on Student
 for each row BEGIN
 if old.cid is not NULL then
@@ -75,19 +65,15 @@ end if;
 update Chair C set C.taken = '1' where C.id = NEW.cid;
 END
 |
-# 当工位编号改变时，学生表的cid字段也要发生同样的变化
-DELIMITER |
-create trigger change_cid after update on Chair
-for each row BEGIN
-update Student S set S.cid = new.id where S.cid=old.id;
-END
-|
 # 删除某个房间，把所有该房间的工位删除
 create trigger delete_room before delete on Room
 for each row BEGIN
 delete from Chair C where C.rid = old.id;
 END
 |
+# 删除工位，原来使用该工位学生不再使用该工位
+create delete_chair befor delete on Chair
+for each row
 # 更新工位代码
 先把所有工位的横纵加上20，编号为期望编号
 然后把学生使用的工位更新
