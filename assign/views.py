@@ -485,6 +485,8 @@ def admin_seat(request):
                     temp = cursor.fetchall()
                     if len(temp) != 0:
                         turn = True
+                    else:
+                        cursor.execute("update Room set _row=%s,line=%s", [info[1],info[2]])
                 elif actype == '6': # 添加房间
                     cursor.execute("insert into Room values(%s,%s,%s)",[info[0],info[1],info[2]])
                 elif actype == '7': # 删除房间
