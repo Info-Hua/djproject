@@ -484,11 +484,11 @@ def admin_seat(request):
                     temp = cursor.fetchall()
                     cursor.execute("select * from Room where id=%s",[info[0]])
                     room = cursor.fetchall()
-                    if room[0][1] != info[1] or room[0][2] != info[2]: # 进行房间行列修改
+                    if room[0][1] != int(info[1]) or room[0][2] != int(info[2]): # 进行房间行列修改
                         if len(temp) != 0:
                             turn = True
-                    #     else:
-                    #         cursor.execute("update Room set _row=%s,line=%s where id=%s", [info[1],info[2],info[0]])
+                        else:
+                            cursor.execute("update Room set _row=%s,line=%s where id=%s", [info[1],info[2],info[0]])
                 elif actype == '6': # 添加房间
                     cursor.execute("insert into Room values(%s,%s,%s)",[info[0],info[1],info[2]])
                 elif actype == '7': # 删除房间
