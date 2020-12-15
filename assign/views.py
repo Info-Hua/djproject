@@ -484,7 +484,7 @@ def admin_seat(request):
                     temp = cursor.fetchall()
                     cursor.execute("select * from Room where id=%s",[info[0]])
                     room = cursor.fetchall()
-                    if room[0][1] != int(info[1]) or room[0][2] != int(info[2]): # 进行房间行列修改
+                    if len(room) != 0 and (room[0][1] != int(info[1]) or room[0][2] != int(info[2])): # 进行房间行列修改
                         if len(temp) != 0:
                             turn = True
                         else:
