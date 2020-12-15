@@ -480,11 +480,11 @@ def admin_seat(request):
                     cursor.execute("update Student set cid=NULL where id = %s", [info[3]])
                     cursor.execute("update Student set cid=%s where id = %s", [cid,info[4]])
                 elif actype == '5': # 验证工位行列修改是否合法
-                    cursor.execute("select * from Chair where taken='1' and rid=%s and (_row>=%s or line>=%s)", [info[0],info[1],info[2]])
-                    print("test")
-                    temp = cursor.fetchall()
-                    if len(temp) != 0:
-                        turn = True
+                    # cursor.execute("select * from Chair where taken='1' and rid=%s and (_row>=%s or line>=%s)", [info[0],info[1],info[2]])
+                    # print("test")
+                    # temp = cursor.fetchall()
+                    # if len(temp) != 0:
+                    #     turn = True
                     # else:
                     #     cursor.execute("update Room set _row=%s,line=%s where id=%s", [info[1],info[2],info[0]])
                 elif actype == '6': # 添加房间
