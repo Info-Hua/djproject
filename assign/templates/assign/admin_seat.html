@@ -219,7 +219,7 @@
                 <div class="modal-content">
                     <div class="modal-body" style="text-align:center;"><h1 id="title">删除实验室成功</h1></div>
                     <div class="modal-footer">                                                                  
-                        <a href="{% url 'assign:admin_seat' %}" class="btn btn-primary btn-lg" data-dismiss="modal">确定</a>
+                        <a href="{% url 'assign:admin_seat' %}" class="btn btn-primary btn-lg">确定</a>
                     </div>
                 </div>
             </div>
@@ -413,7 +413,7 @@
             var row = document.getElementById("row"+String(count)).value;
             var col = document.getElementById("col"+String(count)).value;
             var labid = document.getElementById("labid"+String(count)).value;
-
+            
             if(count == 0){
                 var info_send = ['0', '0', '0'];
                 info_send[0] = labid;
@@ -428,7 +428,7 @@
                     traditional: true,
                     async:false,
                     data:{actype:6,
-                          info: info_send},
+                        info: info_send},
                     success: function(result) {
                         result = JSON.parse(result);
                         if(result["status"] == 0){
@@ -669,7 +669,7 @@
                     traditional: true,
                     async:false,
                     data:{actype:5,
-                          info: info_send},
+                        info: info_send},
                     success: function(result) {
                         result = JSON.parse(result);
                         if(result["status"] == 0){
@@ -895,7 +895,7 @@
                         $('#myModal').modal();
                     }
                 })
-            }
+            }          
         }
         //删除实验室
         function del(count){
