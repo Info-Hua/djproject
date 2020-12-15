@@ -466,6 +466,7 @@ def admin_seat(request):
             line = '0' + line
         cid = info[0] + _row + line
         try:
+            turn = False
             with connection.cursor() as cursor:
                 if actype == '0': # 创建一个工位
                     cursor.execute("insert into Chair values(%s,%s,%s,%s,%s,%s)",[cid,info[0],info[1],info[2],info[3],'0'])
@@ -483,12 +484,14 @@ def admin_seat(request):
                     print("test")
                     temp = cursor.fetchall()
                     if len(temp) != 0:
-                        raise EnvironmentError
+                        turn = True
                 elif actype == '6': # 添加房间
                     cursor.execute("insert into Room values(%s,%s,%s)",[info[0],info[1],info[2]])
                 elif actype == '7': # 删除房间
                     cursor.execute("delete from Room where id=%s", [info[0]])
             status = 1
+            if turn:
+                status = 0
         except:
             status = 0
 
