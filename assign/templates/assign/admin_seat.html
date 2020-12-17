@@ -596,7 +596,7 @@
                                                 info_send[0] = localdict[thisbutton][0];
                                                 info_send[1] = localdict[thisbutton][1];
                                                 info_send[2] = localdict[thisbutton][2];
-                                                info_send[3] = infodict[thisbutton][0];
+                                                info_send[3] = temp1;
                                                 info_send[4] =  $(ui.draggable).children().eq(0).html();
                                                 $.ajaxSetup({
                                                     data:{csrfmiddlewaretoken:'{{ csrf_token }}'}
@@ -837,8 +837,8 @@
                                                 info_send[0] = localdict[thisbutton][0];
                                                 info_send[1] = localdict[thisbutton][1];
                                                 info_send[2] = localdict[thisbutton][2];
-                                                info_send[3] = infodict[thisbutton][0];
-                                                info_send[4] = $(ui.draggable).children().eq(0).html();
+                                                info_send[3] = temp1;
+                                                info_send[4] = $(ui.draggable).children().eq(0).html();;
                                                 $.ajaxSetup({
                                                     data:{csrfmiddlewaretoken:'{{ csrf_token }}'}
                                                 })
