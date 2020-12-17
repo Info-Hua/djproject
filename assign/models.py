@@ -99,7 +99,8 @@ create table Teacher(
     name varchar(10) not null,
     rid integer,
     gname varchar(100),
-    last_date date
+    last_date date,
+    foreign key (rid) references Room(id) // 这一句还未添加到后台数据库
 );
 # 创建视图，得到每个老师、所在实验室、行、列和他在同一实验室的空闲工位id
 create view CTech as

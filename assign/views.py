@@ -658,6 +658,10 @@ def person_info(request):
             rid = request.POST['roomid']
             with connection.cursor() as cursor:
                 try:
+                    cursor.execute("select* from Room where id=%s",[rid])
+                    temp = cursor.fetchall()
+                    if len(temp) == 0: # 房间不存在
+                        raise EnvironmentError
                     cursor.execute("update Teacher set rid=%s where id=%s", [rid,user.username])
                     status = 1
                 except:
@@ -734,21 +738,21 @@ def auto_assign(request):
             print(untaken)
 
             for c in cand: # 先尝试把学生分配到导师所在的实验室，如果该实验室内没有空位，需要检查邻近的实验室
-                if c[1] in untaken: # 学生期望实验室在实验室列表中
-                    if len(untaken[c[1]]) != 0: # 对应实验室有空位
-                        cursor.execute("update Student set cid=%s where id=%s", [untaken[c[1]][0], c[0]])
-                        untaken[c[1]].pop(0)
-                    else: # 得到邻近实验室
-                        cursor.execute("select id from Room R where id<>%s order by abs(id-%s)", [c[1],c[1]])
-                        temp = cursor.fetchall()
-                        print(temp)
-                        for lab in temp: # 分配到邻近实验室  lab为(417,)的形式       
-                            if len(untaken[lab[0]]) != 0:
-                                print("test")
-                                nei = lab[0]
-                                cursor.execute("update Student set cid=%s where id=%s", [untaken[nei][0], c[0]])
-                                untaken[nei].pop(0)
-                                break
+                if c[1] in untaken and len(untaken[c[1]]) != 0: # 学生期望实验室有空闲工位
+                    # if len(untaken[c[1]]) != 0: # 对应实验室有空位
+                    cursor.execute("update Student set cid=%s where id=%s", [untaken[c[1]][0], c[0]])
+                    untaken[c[1]].pop(0)
+                else: # 得到邻近实验室
+                    cursor.execute("select id from Room R where id<>%s order by abs(id-%s)", [c[1],c[1]])
+                    temp = cursor.fetchall()
+                    print(temp)
+                    for lab in temp: # 分配到邻近实验室  lab为(417,)的形式       
+                        if len(untaken[lab[0]]) != 0:
+                            print("test")
+                            nei = lab[0]
+                            cursor.execute("update Student set cid=%s where id=%s", [untaken[nei][0], c[0]])
+                            untaken[nei].pop(0)
+                            break
         status = 1
     except:
         status = 0
