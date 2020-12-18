@@ -855,6 +855,7 @@
                                                     success: function(result) {
                                                         result = JSON.parse(result);
                                                         if(result["status"] == 0){
+                                                            alert(result["status"]);
                                                             $('#myModal').modal();
                                                         }
                                                         else{
