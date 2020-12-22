@@ -839,6 +839,7 @@
                                                 info_send[2] = localdict[thisbutton][2];
                                                 info_send[3] = infodict[thisbutton][0];
                                                 info_send[4] = $(ui.draggable).children().eq(0).html();
+                                                alert(info_send);
                                                 $.ajaxSetup({
                                                     data:{csrfmiddlewaretoken:'{{ csrf_token }}'}
                                                 })
@@ -854,6 +855,7 @@
                                                     success: function(result) {
                                                         result = JSON.parse(result);
                                                         if(result["status"] == 0){
+                                                            alert(result["status"]);
                                                             $('#myModal').modal();
                                                         }
                                                         else{
