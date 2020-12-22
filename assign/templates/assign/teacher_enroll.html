@@ -338,7 +338,7 @@
                 result = JSON.parse(result);
                 if(result["status"] == 1){
                     $('#myModal1').modal();
-                    setTimeout("window.location.href='{% url 'assign:teacher_enroll' %}'",2000);
+                    setTimeout("window.location.href='{% url 'assign:teacher_enroll' %}'",1000);
                 }
             }
         });
