@@ -24,55 +24,28 @@ logger = logging.getLogger(__name__)
 
 #注册视图，考虑要不要检查前端发过来的数据有效性，如果无效应该怎么处理
 def register(request):
-    print("test register")
     if request.method == 'GET':
         print("tets GET")
     else:
         #form = RegisterForm(request.POST)
-        print("test POST")
         username = request.POST.get('account')
         password = request.POST.get('password')
         try:
-            print("test register valid")
             user = User.objects.create_user(username=username, password=password)
             user.save()
-            #form.success = True
             response = HttpResponse(json.dumps({"status": 1}))
-            #return HttpResponseRedirect(reverse('assign:login'))
             return response
         except:
-            print("test register invalid")
-            #form = RegisterForm()
-            #form.duplicate = True
-            #msg = "用户名或密码错误"
-            #return render(request, 'accounts/register.html', {'form': form, 'msg': msg})
             response = HttpResponse(json.dumps({"status": 0}))
             return response
     
     return render(request, 'accounts/register.html')
-'''
-        if form.is_valid():
-            print(form.cleaned_data['username'])
-            try:
-                print("test register valid")
-                user = User.objects.create_user(username=form.cleaned_data['username'], password=form.cleaned_data['password'])
-                user.save()
-                form.success = True
-                return HttpResponseRedirect(reverse('assign:login'))
-            except:
-                print("test register invalid")
-                form = RegisterForm()
-                #form.duplicate = True
-                msg = "用户名或密码错误"
-                return render(request, 'accounts/register.html', {'form': form, 'msg': msg})
-'''
     
 
 # 人大验证登陆
 def loggin(request):
     loginServer = "http://cas.ruc.edu.cn/cas/login"
     myurl = "http://180.76.163.103/assign/accounts/cas"
-    print("test")
     return redirect(loginServer+'?service='+myurl,code=302)
 
 def _login(request):
@@ -83,10 +56,8 @@ def _login(request):
         #此处需要加一个判断next是否为本网站中已有url的部分
         try:
             next = request.GET['next']
-            print(type(next))
         except:
             next = ""
-            print('error next')
     else:
         #form = LoginForm(request.POST)
         try:
@@ -96,7 +67,6 @@ def _login(request):
             account = ""
             password = ""
 
-        print("test post") 
         user = authenticate(username=account, password=password)
         if user is not None: #用户存在，按照用户类型（老师/管理员）跳转到相应页面
             login(request, user)
@@ -104,8 +74,6 @@ def _login(request):
                 next = reverse('assign:admin_index')
             else:
                 next = reverse('assign:teacher_index')
-            print("login success")
-            print(next)
             
             response = HttpResponse(json.dumps({
                 "status": 1,
@@ -114,8 +82,6 @@ def _login(request):
             return response
             
         else: #用户不存在
-            #form.error = True
-            #print(form.error)
             status = 0
             response = HttpResponse(json.dumps({
                 "status": status,             
@@ -126,9 +92,7 @@ def _login(request):
 
 
 def cas(request):
-    print("cas test")
     ticket = request.GET["ticket"]
-    print(ticket)
     myurl ="http://180.76.163.103/assign/accounts/cas" 
     validateServer = "http://cas.ruc.edu.cn/cas/serviceValidate"
     validateurl = validateServer+"?ticket="+ticket+'&service='+myurl
@@ -144,15 +108,12 @@ def cas(request):
     try:
         user = User.objects.get(username=uid)
         login(request, user)
-        print("user exitsts")
         if user.is_staff:
             next = reverse('assign:admin_index')
         else:
             next = reverse('assign:teacher_index')
         return redirect(next)
     except:
-        print("user not exists")
-        # request.session.flush()
         return HttpResponse(content="sorry no permission")
 
 
@@ -188,13 +149,10 @@ def get_name(request):
 def teacher_index(request):
     tid = request.user.username
     username = request.user.first_name
-    print(tid)
-    print(username)
     with connection.cursor() as cursor:
         #得到房间信息
         cursor.execute("select id,_row,line from Room order by id asc")
         list_lab_info = list(cursor.fetchall())
-        print(list_lab_info)
         #得到每个房间的工位信息
         list_seat_info = []
         for e in list_lab_info:
@@ -263,9 +221,6 @@ def teacher_enroll(request):
             sql = "select S.id,S.name,S.stype,date_format(S.enroll_date,'%Y.%m.%d'),C.rid,S.cid from Student S left join Chair C on S.cid=C.id where S.tid=\'" + str(tid) + "\'"
             cursor.execute(sql)
             list_student_info = list(cursor.fetchall())
-            print("enroll")
-            print(str(tid))
-            print(list_student_info)
     else:
         # 前台会返回所有记录，包括存在的和不存在的，逐个把前台返回的数据插入数据库，如果插入失败就跳过
         # 要先把该导师的所有学生记录删除（写一个触发器，使得删除某个学生记录后原有位置无人使用）
@@ -379,7 +334,6 @@ def admin_account(request):
     else:
         with connection.cursor() as cursor:
             _type = request.POST['status']
-            print(_type)
             if _type == '0': # 添加账户，同时添加一个老师记录
                 try:
                     account_info = request.POST.getlist('account_info')
@@ -439,25 +393,20 @@ def admin_seat(request):
             # 得到未分配座位学生名单
             cursor.execute("select S.id,S.name,S.stype,T.name from Student S,Teacher T where S.cid is NULL and S.tid=T.id order by T.id")
             list_student_info = list(cursor.fetchall())
-            print(list_student_info)
             #得到房间信息
             cursor.execute("select id,_row,line from Room order by id asc")
             list_lab_info = list(cursor.fetchall())
-            print(list_lab_info)
             #得到每个房间的工位信息
             list_seat_info = []
             for e in list_lab_info:
                 cursor.execute("select C._row,C.line,C.id,C.ctype,C.taken,S.name,S.id,S.stype,S.tid,T.gname from Chair C left join Student S on C.id=S.cid left join Teacher T on S.tid = T.id where C.rid=%s;",[e[0]])
                 list_seat_info.append(list(cursor.fetchall()))
-            print(list_seat_info)
             #得到每个老师和对应名字的字典
             cursor.execute("select id,name from Teacher order by id asc")
             dict_tname = dict(cursor.fetchall())
     else:
         actype = request.POST['actype']
-        print(actype)
         info = request.POST.getlist('info')
-        print(info)
         _row = info[1]
         line = info[2]
         if len(_row) == 1:
@@ -478,6 +427,8 @@ def admin_seat(request):
                     cursor.execute("update Student set cid=NULL where id = %s", [info[3]])
                 elif actype == '4': # 交换
                     # cursor.execute("update Student set cid=NULL where id = %s", [info[3]])
+                    # 释放工位
+                    cursor.execute("update Student set cid=NULL where id=%s", [info[3]])
                     cursor.execute("update Student set cid=%s where id = %s", [cid,info[4]])
                 elif actype == '5': # 验证实验室行列修改是否合法
                     cursor.execute("select * from Chair where taken='1' and rid=%s and (_row>=%s or line>=%s)", [info[0],info[1],info[2]])
@@ -534,12 +485,9 @@ def query(request):
     try: 
         stype = request.GET['stype']
         key = request.GET['key']
-        #print("test get")
     except:
         stype = 0
         key = ""
-    print(stype)
-    print(key)
 
     # 以下数据要返回给前台
     list_seat_info = []
@@ -549,7 +497,6 @@ def query(request):
     status = 0
     with connection.cursor() as cursor:
         if stype == '1': #学生学号，先找到该学生所在实验室，然后把该实验室中的工位取出
-            print("test")
             cursor.execute("select C.rid from Student S,Chair C where S.id=%s and S.cid=C.id", [key])
             try: # 不存在结果
                 rid = cursor.fetchone()[0]
@@ -582,7 +529,6 @@ def query(request):
         elif stype == '3': # 导师编号，先得到导师学生所在实验室，再得到实验室的工位信息
             cursor.execute("select R.id,R._row,R.line from Teacher T, Student S, Chair C, Room R where T.id=%s and S.tid=T.id and S.cid = C.id and C.rid=R.id order by R.id", [key])
             temp = cursor.fetchall()
-            print(temp)
             try:
                 temp[0]
                 for t in temp:
@@ -598,7 +544,6 @@ def query(request):
             search_col = 8
             search_key = key
         elif stype == '4': # 课题组，先查询课题组中的老师，然后查询学生，根据学生得到，但是会遇到实验室重复的情况
-            #print(key)
             appr_labs = dict()
             cursor.execute("select id from Teacher where gname=%s order by id", [key])
             try:
@@ -720,7 +665,6 @@ def auto_assign(request):
     # 先得到未被分配工位的学生名单（按照“直博 > 普通博士 > 学硕 > 全日制工硕 > 非全日制工硕”的顺序，
     #                           优先级越高，排在越前面）
     # 编号 期望分配的实验室
-    print("test auto")
     try:
         with connection.cursor() as cursor:
             cursor.execute("select S.id,T.rid from Student S,Teacher T where S.cid is null and S.tid=T.id order by S.stype,S.id")
@@ -735,7 +679,6 @@ def auto_assign(request):
                 for eid in eids:
                     temp.append(eid[0])
                 untaken[e[0]] = temp
-            print(untaken)
 
             for c in cand: # 先尝试把学生分配到导师所在的实验室，如果该实验室内没有空位，需要检查邻近的实验室
                 if c[1] in untaken and len(untaken[c[1]]) != 0: # 学生期望实验室有空闲工位
@@ -745,10 +688,8 @@ def auto_assign(request):
                 else: # 得到邻近实验室
                     cursor.execute("select id from Room R where id<>%s order by abs(id-%s)", [c[1],c[1]])
                     temp = cursor.fetchall()
-                    print(temp)
                     for lab in temp: # 分配到邻近实验室  lab为(417,)的形式       
                         if len(untaken[lab[0]]) != 0:
-                            print("test")
                             nei = lab[0]
                             cursor.execute("update Student set cid=%s where id=%s", [untaken[nei][0], c[0]])
                             untaken[nei].pop(0)

@@ -74,25 +74,6 @@ END
 # 删除工位，原来使用该工位学生不再使用该工位
 create delete_chair befor delete on Chair
 for each row
-# 更新工位代码
-先把所有工位的横纵加上20，编号为期望编号
-然后把学生使用的工位更新
-删除横小于20的工位
-把所有工位横纵减20
-cursor.execute("select * from Chair")
-ch = cursor.fetchall()
-for c in ch:
-    _row = str(c[2])
-    if len(_row)==1:
-        _row = '0'+_row
-    line = str(c[3])
-    if len(line)==1:
-        line = '0'+line
-    nid = str(c[1])+_row+line
-    cursor.execute("insert into Chair values(%s,%s,%s,%s,%s,%s)",[nid, c[1],c[2]+20,c[3]+20,c[4],c[5]])
-    cursor.execute("update Student set cid=%s where cid=%s", [nid,c[0]])
-cursor.execute("delete from Chair where _row<20")
-cursor.execute("update Chair set _row=_row-20, line=line-20)
 # 老师和课题组（ganme）为多对一的关系
 create table Teacher(
     id char(11) primary key,
